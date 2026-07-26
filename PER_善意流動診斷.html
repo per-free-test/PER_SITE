@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>善意流動診斷</title>
+<style>
+body{
+  margin:0;
+  font-family:"Yu Gothic",sans-serif;
+  background:#f5f5f5;
+}
+.page{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+.card{
+  background:white;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+h1,h2,h3{text-align:center;}
+.option{padding:8px 0;font-size:18px;}
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:40px;
+  background:#6f5a93;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
+#resultPage{
+  display:none;
+  background:linear-gradient(#07124a,#2f215a);
+  min-height:100vh;
+  color:white;
+}
+.result-wrap{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+.flow-card{
+  border-radius:24px;
+  padding:20px;
+  margin:12px 0;
+  text-align:center;
+}
+.c1{background:linear-gradient(135deg,#157dc0,#0d4f8f);}
+.c2{background:linear-gradient(135deg,#5e5b8f,#43416f);}
+.c3{background:linear-gradient(135deg,#8db2d8,#6888b5);}
+.c4{background:linear-gradient(135deg,#1a214f,#0b1033);}
+.arrow{
+  text-align:center;
+  font-size:34px;
+  opacity:.8;
+}
+.small{
+  opacity:.95;
+  margin-top:40px;
+  line-height:2;
+  text-align:center;
+  font-size:32px;
+  font-weight:500;
+}
+</style>
+</head>
+<body>
+
+<div id="inputPage" class="page">
+<div class="card">
+<h1>善意流動診斷</h1>
+<p>請從以下選項中選擇一項最符合你的善意。</p>
+
+<div class="option"><input type="radio" name="g" value="想理解對方"> 想理解對方</div>
+<div class="option"><input type="radio" name="g" value="想守護對方"> 想守護對方</div>
+<div class="option"><input type="radio" name="g" value="希望對方保持自由"> 希望對方保持自由</div>
+<div class="option"><input type="radio" name="g" value="想支持對方"> 想支持對方</div>
+<div class="option"><input type="radio" name="g" value="想為對方加油"> 想為對方加油</div>
+<div class="option"><input type="radio" name="g" value="想產生共鳴"> 想產生共鳴</div>
+<div class="option"><input type="radio" name="g" value="希望對方成長"> 希望對方成長</div>
+<div class="option"><input type="radio" name="g" value="想建立連結"> 想建立連結</div>
+<div class="option"><input type="radio" name="g" value="想和對方在一起"> 想和對方在一起</div>
+<div class="option"><input type="radio" name="g" value="想共享彼此的世界"> 想共享彼此的世界</div>
+
+<br>
+
+</div>
+</div>
+<button onclick="showResult()">查看結果</button>
+<div id="resultPage">
+
+
+<div class="result-wrap">
+
+<h3>你所選擇的善意</h3>
+<h1 id="title"></h1>
+
+<div id="cards"></div>
+
+<div class="small">
+</div>
+<div class="small">
+善意會在關係之中流動，<br>
+也可能慢慢改變自己的模樣。
+</div>
+
+<br>
+
+<button onclick="back()">返回</button>
+
+</div>
+
+<script>
+const DATA={
+
+"想理解對方":[
+["🌊 循環","隨著彼此的變化持續理解對方","即使不明白的部分，也願意繼續觀察"],
+["🪨 固定","認定對方就是這樣的人","理解不再更新"],
+["❄️ 循環停止","標籤化","停止觀察"],
+["🌑 關係消滅","失去關心","不再想理解對方"]
+],
+
+"想守護對方":[
+["🌊 循環","依照狀況給予支持","在需要的時候伸出援手"],
+["🪨 固定","總是想保護對方","保護本身成為目的"],
+["❄️ 循環停止","管理與監視","開始無法信任對方"],
+["🌑 關係消滅","拒絕與隔絕","封閉彼此的關係"]
+],
+
+"希望對方保持自由":[
+["🌊 循環","允許對方改變","信任並尊重對方的選擇"],
+["🪨 固定","認為什麼都不做才是自由","不介入成為唯一正確答案"],
+["❄️ 循環停止","放任與停止關心","即使需要幫助也不再伸手"],
+["🌑 關係消滅","漠不關心","逐漸失去對對方的關注"]
+],
+
+"想支持對方":[
+["🌊 循環","在需要的時候給予支持","依照情況提供力量"],
+["🪨 固定","不停地支持對方","無法放下支持者的角色"],
+["❄️ 循環停止","單方面的負擔","支持逐漸變成壓力"],
+["🌑 關係消滅","疲憊與斷裂","失去維持關係的力量"]
+],
+
+"想為對方加油":[
+["🌊 循環","為對方的挑戰感到高興","陪伴並見證成長"],
+["🪨 固定","持續對對方抱有期待","鼓勵逐漸變成期待"],
+["❄️ 循環停止","要求與壓力","開始追求結果"],
+["🌑 關係消滅","失望","覺得自己的期待被辜負"]
+],
+
+"想產生共鳴":[
+["🌊 循環","接納彼此的不同並產生共鳴","享受彼此的感受"],
+["🪨 固定","要求彼此完全一致","不再接受差異"],
+["❄️ 循環停止","同儕壓力","開始要求相同的反應"],
+["🌑 關係消滅","隔絕","停止彼此共鳴"]
+],
+
+"希望對方成長":[
+["🌊 循環","支持對方的改變","為可能性的擴展感到喜悅"],
+["🪨 固定","認為對方必須一直成長","把改變變成義務"],
+["❄️ 循環停止","改善要求與矯正","試圖讓對方符合自己的理想"],
+["🌑 關係消滅","否定","無法接受現在的對方"]
+],
+
+"想建立連結":[
+["🌊 循環","享受自然的連結","不強迫彼此維持關係"],
+["🪨 固定","認為關係必須一直存在","維持關係本身成為目的"],
+["❄️ 循環停止","執著","無法接受分離"],
+["🌑 關係消滅","孤立","失去連結本身"]
+],
+
+"想和對方在一起":[
+["🌊 循環","一起度過時光","享受共同分享的當下"],
+["🪨 固定","認為必須時時刻刻在一起","無法接受距離"],
+["❄️ 循環停止","束縛","開始限制對方"],
+["🌑 關係消滅","漠不關心","失去共同相處的意義"]
+],
+
+"想共享彼此的世界":[
+["🌊 循環","分享彼此眼中的世界","享受不同的視角"],
+["🪨 固定","要求擁有相同世界觀","無法接受差異"],
+["❄️ 循環停止","排他性","封閉外部世界"],
+["🌑 關係消滅","斷絕","彼此的世界徹底分離"]
+]
+
+};
+function showResult(){
+const sel=document.querySelector('input[name="g"]:checked');
+if(!sel){alert("你所選擇的善意");return;}
+const v=sel.value;
+document.getElementById("title").innerText=v;
+let html='';
+const cls=['c1','c2','c3','c4'];
+DATA[v].forEach((d,i)=>{
+html+=`<div class="flow-card ${cls[i]}"><h2>${d[0]}</h2><p>${d[1]}</p><p>${d[2]}</p></div>`;
+if(i<3) html+=`<div class="arrow">↓</div>`;
+});
+document.getElementById("cards").innerHTML=html;
+inputPage.style.display='none';
+resultPage.style.display='block';
+}
+function back(){
+resultPage.style.display='none';
+inputPage.style.display='block';
+}
+</script>
+</body>
+</html>

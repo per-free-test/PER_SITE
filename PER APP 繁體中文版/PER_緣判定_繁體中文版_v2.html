@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>緣分・深層緣分判定</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", "Yu Gothic", "Hiragino Sans", sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99,102,241,0.18), transparent 22%),
+        radial-gradient(circle at 80% 15%, rgba(168,85,247,0.16), transparent 20%),
+        radial-gradient(circle at 50% 80%, rgba(56,189,248,0.14), transparent 24%),
+        linear-gradient(180deg, #07111f 0%, #0b1730 45%, #101935 100%);
+      color: #eef2ff;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 24px 16px 40px;
+    }
+
+    .card {
+      background: rgba(10, 17, 35, 0.78);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 24px 18px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.28);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .sub {
+      margin: 0 0 24px;
+      text-align: center;
+      font-size: 14px;
+      color: #cbd6e1;
+      line-height: 1.7;
+    }
+
+    p {
+      text-align: center;
+      line-height: 1.8;
+      margin: 0 0 16px;
+    }
+
+    .section-title {
+      margin: 20px 0 10px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #eef2ff;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 12px;
+      font-size: 16px;
+      background: rgba(255,255,255,0.94);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #888;
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px 12px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 0.95;
+    }
+
+    .result-box {
+      margin-top: 22px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      display: none;
+      text-align: center;
+    }
+
+    .result-title {
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .result-line {
+      margin: 8px 0;
+      font-size: 15px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    .saved-box {
+      margin: 0 0 18px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .saved-title {
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #eef2ff;
+      text-align: center;
+    }
+
+    .saved-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: end;
+    }
+
+    .saved-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .saved-row button {
+      width: auto;
+      min-width: 96px;
+      margin-top: 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+    }
+
+    select.saved-select {
+      width: 100%;
+      padding: 14px 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 12px;
+      font-size: 16px;
+      background: rgba(255,255,255,0.94);
+      color: #222;
+    }
+
+    select.saved-select option {
+      background: rgba(255,255,255,0.94);
+      color: #222;
+    }
+
+    .mini-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.94);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .mini-btn:hover {
+      background: #f7f7f7;
+    }
+
+    .saved-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 23px;
+      }
+
+      input,
+      .btn {
+        font-size: 15px;
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>緣分・深層緣分判定</h1>
+      <p class="sub">
+        請輸入兩人的姓名與出生日期，<br>
+        取得干支編號
+      </p>
+
+      <div class="saved-box">
+        <p class="saved-title">載入儲存資料</p>
+
+        <div class="saved-row">
+          <div>
+            <label for="selMy">自己</label>
+            <select id="selMy" class="saved-select"></select>
+          </div>
+          <button type="button" class="mini-btn" onclick="setPersonFromStore('my')">設為自己</button>
+        </div>
+
+        <div class="saved-row">
+          <div>
+            <label for="selPartner">對方</label>
+            <select id="selPartner" class="saved-select"></select>
+          </div>
+          <button type="button" class="mini-btn" onclick="setPersonFromStore('partner')">設為對方</button>
+        </div>
+
+        <button type="button" class="mini-btn" onclick="refreshPeopleSelects()">重新載入資料</button>
+        <p class="saved-note">可從此載入已儲存的干支資料。</p>
+      </div>
+
+      <div class="section-title">你</div>
+
+      <div class="field">
+        <label for="myName">姓名</label>
+        <input type="text" id="myName" placeholder="請輸入你的姓名" />
+      </div>
+
+      <div class="field">
+        <label for="myBirth">出生日期</label>
+        <input type="date" id="myBirth" />
+      </div>
+
+      <div class="section-title">對方</div>
+
+      <div class="field">
+        <label for="partnerName">姓名</label>
+        <input type="text" id="partnerName" placeholder="請輸入對方姓名" />
+      </div>
+
+      <div class="field">
+        <label for="partnerBirth">出生日期</label>
+        <input type="date" id="partnerBirth" />
+      </div>
+
+      <button class="btn" onclick="callKanshiNumbers()">取得干支編號</button>
+
+      <div id="resultBox" class="result-box">
+        <p class="result-title">干支編號</p>
+        <div id="myResult" class="result-line"></div>
+        <div id="partnerResult" class="result-line"></div>
+        <p class="note">
+         透過 Apps Script 取得干支編號。 
+        </p>
+
+        <button class="btn" onclick="showDoor1()">
+          進入一般緣分判定
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+const PEOPLE_KANSHI_URL = "https://script.google.com/macros/s/AKfycbzH0gH2BYhVyKdF2mfA8be8nVck_q74OECc-84o-O4pV5XEiEAubviOgyUO-DroXDd-Tg/exec";
+const PAIR_JUDGEMENT_URL = "https://script.google.com/macros/s/AKfycbzH0gH2BYhVyKdF2mfA8be8nVck_q74OECc-84o-O4pV5XEiEAubviOgyUO-DroXDd-Tg/exec";
+    let currentData = {
+      my: null,
+      partner: null
+    };
+
+    let currentPairCache = null;
+
+    function toNum(v) {
+      const n = parseInt(v, 10);
+      return (Number.isInteger(n) && n >= 1 && n <= 60) ? n : NaN;
+    }
+
+    async function fetchMeishikiByBirth(birth) {
+    const res = await fetch(PEOPLE_KANSHI_URL + "?birth=" + encodeURIComponent(birth), {
+   method: "GET",
+        cache: "no-store"
+      });
+
+      if (!res.ok) {
+        throw new Error("Apps Script 取得失敗。HTTP " + res.status);
+      }
+
+      const data = await res.json();
+      if (!data.ok) {
+        throw new Error(data.error || "無法取得命式資料。");
+      }
+
+      const D = toNum(data.day);
+      const M = toNum(data.month);
+      const Y = toNum(data.year);
+
+      if (!Number.isFinite(D) || !Number.isFinite(M) || !Number.isFinite(Y)) {
+        throw new Error("編號取得失敗。請確認回傳資料。");
+      }
+
+      return {
+        birth: data.birth || birth,
+        numbers: [D, M, Y],
+        kanshi: [data.dayKan || "-", data.monthKan || "-", data.yearKan || "-"]
+      };
+    }
+
+    async function callKanshiNumbers() {
+      const myName = document.getElementById("myName").value.trim();
+      const myBirth = document.getElementById("myBirth").value;
+      const partnerName = document.getElementById("partnerName").value.trim();
+      const partnerBirth = document.getElementById("partnerBirth").value;
+
+      if (!myName || !myBirth || !partnerName || !partnerBirth) {
+        alert("請輸入所有姓名與出生日期。");
+        return;
+      }
+
+      document.getElementById("myResult").textContent = "取得中...";
+      document.getElementById("partnerResult").textContent = "取得中...";
+      document.getElementById("resultBox").style.display = "block";
+
+      const canUseStoredMy =
+        currentData.my &&
+        currentData.my.birth === myBirth &&
+        Number.isFinite(Number(currentData.my.D)) &&
+        Number.isFinite(Number(currentData.my.M)) &&
+        Number.isFinite(Number(currentData.my.Y));
+
+      const canUseStoredPartner =
+        currentData.partner &&
+        currentData.partner.birth === partnerBirth &&
+        Number.isFinite(Number(currentData.partner.D)) &&
+        Number.isFinite(Number(currentData.partner.M)) &&
+        Number.isFinite(Number(currentData.partner.Y));
+
+      try {
+        let myData;
+        let partnerData;
+
+        if (canUseStoredMy) {
+          myData = {
+            birth: currentData.my.birth,
+            numbers: [currentData.my.D, currentData.my.M, currentData.my.Y],
+            kanshi: [currentData.my.kanshiD || "", currentData.my.kanshiM || "", currentData.my.kanshiY || ""]
+          };
+          currentData.my.name = myName;
+        } else {
+          myData = await fetchMeishikiByBirth(myBirth);
+          currentData.my = {
+            name: myName,
+            birth: myData.birth,
+            D: myData.numbers[0],
+            M: myData.numbers[1],
+            Y: myData.numbers[2],
+            kanshiD: myData.kanshi[0],
+            kanshiM: myData.kanshi[1],
+            kanshiY: myData.kanshi[2]
+          };
+        }
+
+        if (canUseStoredPartner) {
+          partnerData = {
+            birth: currentData.partner.birth,
+            numbers: [currentData.partner.D, currentData.partner.M, currentData.partner.Y],
+            kanshi: [currentData.partner.kanshiD || "", currentData.partner.kanshiM || "", currentData.partner.kanshiY || ""]
+          };
+          currentData.partner.name = partnerName;
+        } else {
+          partnerData = await fetchMeishikiByBirth(partnerBirth);
+          currentData.partner = {
+            name: partnerName,
+            birth: partnerData.birth,
+            D: partnerData.numbers[0],
+            M: partnerData.numbers[1],
+            Y: partnerData.numbers[2],
+            kanshiD: partnerData.kanshi[0],
+            kanshiM: partnerData.kanshi[1],
+            kanshiY: partnerData.kanshi[2]
+          };
+        }
+
+        document.getElementById("myResult").textContent =
+          `${myName}： ${[currentData.my.D, currentData.my.M, currentData.my.Y].join(" / ")}`;
+
+        document.getElementById("partnerResult").textContent =
+          `${partnerName}： ${[currentData.partner.D, currentData.partner.M, currentData.partner.Y].join(" / ")}`;
+
+        currentPairCache = null;
+      } catch (error) {
+        console.error(error);
+        document.getElementById("myResult").textContent = "無法取得資料";
+        document.getElementById("partnerResult").textContent = "無法取得資料";
+        alert("取得干支編號失敗。\n" + error.message);
+      }
+    }
+
+    function showDoor1() {
+      document.body.innerHTML = `
+        <div style="text-align:center; padding:40px 16px; color:#eef2ff;">
+          <h2 style="font-size:42px; margin:0 0 18px;">一般緣分之門</h2>
+          <img src="images/door1.png" style="width:80%; max-width:320px; margin-top:20px; border-radius:18px; box-shadow:0 16px 40px rgba(0,0,0,0.28);">
+          <br><br>
+          <button onclick="goToNormal()" style="padding:14px 24px; font-size:16px; border:none; border-radius:14px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color:#fff; font-weight:700; cursor:pointer;">
+            開始緣分判定
+          </button>
+        </div>
+      `;
+    }
+
+    function getCurrentSignature() {
+      if (!currentData.my || !currentData.partner) return "";
+      return [
+        currentData.my.birth, currentData.my.D, currentData.my.M, currentData.my.Y,
+        currentData.partner.birth, currentData.partner.D, currentData.partner.M, currentData.partner.Y
+      ].join("|");
+    }
+
+    function ensureCurrentDataReady() {
+      if (!currentData.my || !currentData.partner) {
+        throw new Error("請先取得干支編號。");
+      }
+    }
+
+    async function fetchPairJudgement(force = false) {
+      ensureCurrentDataReady();
+
+      const signature = getCurrentSignature();
+      if (!force && currentPairCache && currentPairCache.signature === signature) {
+        return currentPairCache.payload;
+      }
+
+      const params = new URLSearchParams({
+        action: "pair_judgement",
+        myName: currentData.my.name || "",
+        myBirth: currentData.my.birth || "",
+        myD: String(currentData.my.D || ""),
+        myM: String(currentData.my.M || ""),
+        myY: String(currentData.my.Y || ""),
+        partnerName: currentData.partner.name || "",
+        partnerBirth: currentData.partner.birth || "",
+        partnerD: String(currentData.partner.D || ""),
+        partnerM: String(currentData.partner.M || ""),
+        partnerY: String(currentData.partner.Y || "")
+      });
+
+      const res = await fetch(`${PAIR_JUDGEMENT_URL}?${params.toString()}`, {
+  method: "GET",
+  cache: "no-store"
+});
+
+      if (!res.ok) {
+        throw new Error("取得判定結果失敗。HTTP " + res.status);
+      }
+
+      const data = await res.json();
+      if (!data.ok) {
+        throw new Error(data.error || "無法取得判定結果。");
+      }
+
+      currentPairCache = { signature, payload: data };
+      return data;
+    }
+
+    function buildLoadingPage(title, message = "正在載入試算表結果…") {
+      return `
+        <div style="max-width:920px; margin:0 auto; text-align:center; padding:64px 16px; color:#eef2ff;">
+          <h2 style="margin:0 0 20px; font-size:42px; line-height:1.3;">${title}</h2>
+          <div style="margin:20px auto; width:54px; height:54px; border:4px solid rgba(255,255,255,0.16); border-top-color:#e2e8f0; border-radius:50%; animation: spin 1s linear infinite;"></div>
+          <p style="margin:18px auto 0; max-width:680px; line-height:1.9; color:#cbd5e1; text-align:center;">${message}</p>
+        </div>
+      `;
+    }
+
+    function normalizePlaces(item) {
+      if (!item) return [];
+      if (Array.isArray(item.places)) return item.places;
+      if (Array.isArray(item.positions)) return item.positions;
+      if (item.place) return [item.place];
+      if (item.position) return [item.position];
+      return [];
+    }
+
+    function buildMultipleResultPage(title, results, nextAction = "", nextLabel = "") {
+      const cards = results.map(item => {
+        const imageName = item.image || "door1.png";
+        const imagePath = imageName.startsWith("images/") ? imageName : `images/${imageName}`;
+        const places = normalizePlaces(item);
+
+        const placeText = places.length
+          ? `<p style="margin: 0 0 12px; color: #cbd5e1; font-size: 14px; text-align: center;">對應位置：${places.join(" / ")}</p>`
+          : "";
+const routeText = item.route
+  ? `<p style="margin: 0 0 8px; color: #cbd5e1; font-size: 14px; text-align: center;">對應路徑：${item.route}</p>`
+  : "";
+        const catchcopy = item.catchcopy || "";
+        const comment = item.comment || "";
+
+        return `
+          <div style="margin: 0 auto 24px; max-width: 760px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.10); border-radius: 22px; padding: 24px 18px; box-shadow: 0 12px 34px rgba(0,0,0,0.18);">
+            <h3 style="margin: 0 0 10px; font-size: 30px; text-align:center;">${item.type || ""}</h3>
+${routeText}
+${placeText}
+            ${catchcopy ? `<p style="margin: 0 0 18px; font-size: 22px; font-weight: 700; line-height: 1.7; text-align: center;">${catchcopy}</p>` : ""}
+            <img src="${imagePath}" style="width: min(82vw, 320px); max-width: 100%; margin: 10px auto 0; display:block; border-radius: 18px;">
+            ${comment ? `<p style="margin: 22px auto 0; max-width: 700px; line-height: 2.05; font-size: 17px; white-space: pre-line; color: #f8fafc; text-align: center;">${comment}</p>` : ""}
+          </div>
+        `;
+      }).join("");
+
+      const nextButton = nextAction && nextLabel
+        ? `<button onclick="${nextAction}" style="padding:14px 24px; font-size:16px; border:none; border-radius:14px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color:#fff; font-weight:700; cursor:pointer;">${nextLabel}</button>`
+        : "";
+
+      return `
+        <div style="max-width: 920px; margin: 0 auto; text-align:center; padding: 34px 16px 56px; color: #eef2ff;">
+          <h2 style="margin: 0 0 26px; font-size: 44px; line-height: 1.3;">${title}</h2>
+          ${cards}
+          ${nextButton}
+        </div>
+      `;
+    }
+
+    async function goToNormal() {
+      try {
+        document.body.innerHTML = buildLoadingPage("一般緣分判定");
+        const payload = await fetchPairJudgement();
+        const results = Array.isArray(payload.normalResults) && payload.normalResults.length
+          ? payload.normalResults
+          : [{ type: "無緣", places: [] }];
+
+        document.body.innerHTML = buildMultipleResultPage(
+          "一般緣分判定",
+          results,
+          "goToStructure()",
+          "下一步"
+        );
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+        location.reload();
+      }
+    }
+
+    async function goToStructure() {
+      try {
+        document.body.innerHTML = buildLoadingPage("內在的變化");
+        const payload = await fetchPairJudgement();
+
+        const structureTitle = payload.structureTitle || "內在的變化";
+        const results = Array.isArray(payload.structureResults) ? payload.structureResults : [];
+
+        if (!results.length) {
+          document.body.innerHTML = `
+            <div style="max-width: 920px; margin: 0 auto; text-align:center; padding: 34px 16px 56px; color: #eef2ff;">
+              <h2 style="margin: 0 0 26px; font-size: 44px; line-height: 1.3;">${structureTitle}</h2>
+              <div style="margin: 0 auto 24px; max-width: 760px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.10); border-radius: 22px; padding: 24px 18px; box-shadow: 0 12px 34px rgba(0,0,0,0.18);">
+                <p style="margin:22px auto 0; max-width:700px; line-height:2.05; font-size:17px; white-space:pre-line; color:#f8fafc; text-align:center;">
+                  目前沒有形成深層緣分的內在變化。
+                </p>
+              </div>
+              <button onclick="goToDoor2()" style="padding:14px 24px; font-size:16px; border:none; border-radius:14px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color:#fff; font-weight:700; cursor:pointer;">
+                進入深層
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        const cards = results.map(item => {
+          const imageName = item.image || "scramble.png";
+          const imagePath = imageName.startsWith("images/") ? imageName : `images/${imageName}`;
+          const comment = item.comment || "";
+          const key = item.key || "";
+
+          return `
+            <div style="margin: 0 auto 24px; max-width: 760px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.10); border-radius: 22px; padding: 24px 18px; box-shadow: 0 12px 34px rgba(0,0,0,0.18);">
+              <h3 style="margin: 0 0 10px; font-size: 30px; text-align:center;">內在的變化</h3>
+              ${key ? `<p style="margin: 0 0 12px; color: #cbd5e1; font-size: 14px; text-align: center;">${key}</p>` : ""}
+              <img src="${imagePath}" style="width:min(82vw, 320px); max-width:100%; margin: 10px auto 0; display:block; border-radius:18px;">
+              ${comment ? `<p style="margin:22px auto 0; max-width:700px; line-height:2.05; font-size:17px; white-space:pre-line; color:#f8fafc; text-align:center;">${comment}</p>` : ""}
+            </div>
+          `;
+        }).join("");
+
+        document.body.innerHTML = `
+          <div style="max-width: 920px; margin: 0 auto; text-align:center; padding: 34px 16px 56px; color: #eef2ff;">
+            <h2 style="margin: 0 0 26px; font-size: 44px; line-height: 1.3;">${structureTitle}</h2>
+            ${cards}
+            <button onclick="goToDoor2()" style="padding:14px 24px; font-size:16px; border:none; border-radius:14px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color:#fff; font-weight:700; cursor:pointer;">
+              進入深層
+            </button>
+          </div>
+        `;
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+        location.reload();
+      }
+    }
+
+    function goToDoor2() {
+      document.body.innerHTML = `
+        <div style="text-align:center; padding:40px 16px; color:#eef2ff;">
+          <h2 style="font-size:42px; margin:0 0 18px;">深層之門</h2>
+          <img src="images/door2.png" style="width:80%; max-width:320px; margin-top:20px; border-radius:18px; box-shadow:0 16px 40px rgba(0,0,0,0.28);">
+          <br><br>
+          <button onclick="goToDeep()" style="padding:14px 24px; font-size:16px; border:none; border-radius:14px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color:#fff; font-weight:700; cursor:pointer;">進入深層判定</button>
+        </div>
+      `;
+    }
+
+    async function goToDeep() {
+      try {
+        document.body.innerHTML = buildLoadingPage("深層緣分判定");
+        const payload = await fetchPairJudgement();
+        const results = Array.isArray(payload.deepResults) && payload.deepResults.length
+          ? payload.deepResults
+          : [{ type: "深層無緣", places: [] }];
+
+        document.body.innerHTML = buildMultipleResultPage(
+          "深層緣分判定",
+          results,
+          "",
+          ""
+        );
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+        location.reload();
+      }
+    }
+
+    function fillSavedSelects() {
+      const KEY = "PER-people-kanshi-v4";
+      const raw = localStorage.getItem(KEY);
+      const data = raw ? JSON.parse(raw) : {};
+
+      const selMy = document.getElementById("selMy");
+      const selPartner = document.getElementById("selPartner");
+
+      if (!selMy || !selPartner) return;
+
+      selMy.innerHTML = "";
+      selPartner.innerHTML = "";
+
+      const optMy0 = document.createElement("option");
+      optMy0.value = "";
+      optMy0.textContent = "請選擇";
+      selMy.appendChild(optMy0);
+
+      const optPartner0 = document.createElement("option");
+      optPartner0.value = "";
+      optPartner0.textContent = "請選擇";
+      selPartner.appendChild(optPartner0);
+
+      Object.keys(data).sort().forEach((key) => {
+        const p = data[key];
+        const text = `${key}（${p.dob || ""} / 日${p.D} 月${p.M} 年${p.Y}）`;
+
+        const opt1 = document.createElement("option");
+        opt1.value = key;
+        opt1.textContent = text;
+        selMy.appendChild(opt1);
+
+        const opt2 = document.createElement("option");
+        opt2.value = key;
+        opt2.textContent = text;
+        selPartner.appendChild(opt2);
+      });
+    }
+
+    function refreshPeopleSelects() {
+      fillSavedSelects();
+    }
+
+    window.onload = function() {
+      fillSavedSelects();
+    };
+
+    function setPersonFromStore(which) {
+      const KEY = "PER-people-kanshi-v4";
+      const raw = localStorage.getItem(KEY);
+      const data = raw ? JSON.parse(raw) : {};
+
+      const selectId = which === "my" ? "selMy" : "selPartner";
+      const selectedKey = document.getElementById(selectId).value;
+
+      if (!selectedKey || !data[selectedKey]) {
+        alert("請先選擇保存資料。");
+        return;
+      }
+
+      const person = data[selectedKey];
+
+      if (which === "my") {
+        document.getElementById("myName").value = person.name || selectedKey;
+        document.getElementById("myBirth").value = person.dob || "";
+
+        currentData.my = {
+          name: person.name || selectedKey,
+          birth: person.dob || "",
+          D: Number(person.D),
+          M: Number(person.M),
+          Y: Number(person.Y),
+          kanshiD: person.kanshiD || "",
+          kanshiM: person.kanshiM || "",
+          kanshiY: person.kanshiY || ""
+        };
+      } else {
+        document.getElementById("partnerName").value = person.name || selectedKey;
+        document.getElementById("partnerBirth").value = person.dob || "";
+
+        currentData.partner = {
+          name: person.name || selectedKey,
+          birth: person.dob || "",
+          D: Number(person.D),
+          M: Number(person.M),
+          Y: Number(person.Y),
+          kanshiD: person.kanshiD || "",
+          kanshiM: person.kanshiM || "",
+          kanshiY: person.kanshiY || ""
+        };
+      }
+    }
+  </script>
+</body>
+</html>

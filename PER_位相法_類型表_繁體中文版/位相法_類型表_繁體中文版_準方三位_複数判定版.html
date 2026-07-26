@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>位相法與類型表（點擊顯示）</title>
+<style>
+  body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif; margin: 6px; color:#111;}
+  .layout{display:grid; grid-template-columns: 1fr 340px; gap: 8px; align-items:start;}
+  @media (max-width: 980px){ .layout{grid-template-columns:1fr;} }
+  .panel{
+  padding:4px;
+  background:#fff;
+}
+  .panel h2{font-size:16px; margin:0 0 4px 0;}
+  .hint{font-size:13px; color:#333; margin:0 0 6px 0;}
+  .phase-table{border-collapse: collapse; width:100%; table-layout: fixed; font-size:12px;}
+  .phase-table th, .phase-table td{border:1px solid #ddd; padding:6px; text-align:center; vertical-align:middle;}
+  .phase-table thead th{position: sticky; top: 0; background:#f7f7f7; z-index: 2;}
+  .phase-table .row-h{position: sticky; left: 0; background:#f7f7f7; z-index: 1;}
+  .phase-table td.cell{cursor:pointer; user-select:none; background:#fff;}
+  .phase-table td.cell:hover{outline:2px solid #111; outline-offset:-2px;}
+  .phase-table td.cell.active{outline:3px solid #111; outline-offset:-3px;}
+  #phase-silhouette-area{display:grid; gap:10px; margin-top:10px;}
+  .sil-item{border:1px solid #eee; border-radius:10px; padding:10px;}
+  .sil-item img{width:100%; height:auto; display:block;}
+  .sil-caption{margin-top:6px; font-size:12px; font-weight:700; color:#111;}
+  .per-disclaimer{margin-top:10px; font-size:13px; line-height:1.5; color:#222; font-weight:500;}
+</style>
+</head>
+<body>
+<div class="layout">
+<div class="panel">
+<h2>位相法與類型表（點擊顯示）</h2>
+<p class="hint">點擊儲存格即可查看對應剪影圖（最多3個）。</p>
+<table class="phase-table">
+<thead><tr><th></th>
+<th>子</th>
+<th>丑</th>
+<th>寅</th>
+<th>卯</th>
+<th>辰</th>
+<th>巳</th>
+<th>午</th>
+<th>未</th>
+<th>申</th>
+<th>酉</th>
+<th>戌</th>
+<th>亥</th>
+</tr></thead>
+<tbody>
+<tr>
+<th class="row-h">子</th>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="支合（陰水） 準方三位">支合（陰水） 準方三位</td>
+<td class="cell" data-cell="努力成長型">努力成長型</td>
+<td class="cell" data-cell="旺氣刑">旺氣刑</td>
+<td class="cell" data-cell="半會（水）">半會（水）</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="對沖（地）">對沖（地）</td>
+<td class="cell" data-cell="害">害</td>
+<td class="cell" data-cell="半會（水）">半會（水）</td>
+<td class="cell" data-cell="破">破</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+</tr>
+<tr>
+<th class="row-h">丑</th>
+<td class="cell" data-cell="支合（陰水） 準方三位">支合（陰水） 準方三位</td>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="緊張反應型 藏干干合組">緊張反應型<br/>藏干干合組</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="破">破</td>
+<td class="cell" data-cell="半會（金）">半會（金）</td>
+<td class="cell" data-cell="害">害</td>
+<td class="cell" data-cell="對沖（地）　庫氣刑">對沖（地）　庫氣刑</td>
+<td class="cell" data-cell="努力成長型">努力成長型</td>
+<td class="cell" data-cell="半會（金）">半會（金）</td>
+<td class="cell" data-cell="庫氣刑">庫氣刑</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+</tr>
+<tr>
+<th class="row-h">寅</th>
+<td class="cell" data-cell="努力成長型">努力成長型</td>
+<td class="cell" data-cell="緊張反應型 藏干干合組">緊張反應型<br/>藏干干合組</td>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="生貴刑  害">生貴刑  害</td>
+<td class="cell" data-cell="半會（火）">半會（火）</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="對沖（天） 生貴刑">對沖（天） 生貴刑</td>
+<td class="cell" data-cell="緊張反應型">緊張反應型</td>
+<td class="cell" data-cell="半會（火）">半會（火）</td>
+<td class="cell" data-cell="支合（陽木） 破">支合（陽木） 破</td>
+</tr>
+<tr>
+<th class="row-h">卯</th>
+<td class="cell" data-cell="旺氣刑">旺氣刑</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="害 準方三位">害 準方三位</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="破">破</td>
+<td class="cell" data-cell="半會（木）">半會（木）</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="對沖（地）">對沖（地）</td>
+<td class="cell" data-cell="支合">支合</td>
+<td class="cell" data-cell="半會（木）">半會（木）</td>
+</tr>
+<tr>
+<th class="row-h">辰</th>
+<td class="cell" data-cell="半會（水）">半會（水）</td>
+<td class="cell" data-cell="破">破</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="害 準方三位">害 準方三位</td>
+<td class="cell" data-cell="自刑">自刑</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="半會（水）">半會（水）</td>
+<td class="cell" data-cell="支合">支合</td>
+<td class="cell" data-cell="對沖（天）">對沖（天）</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+</tr>
+<tr>
+<th class="row-h">巳</th>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="半會（金）">半會（金）</td>
+<td class="cell" data-cell="生貴刑
+　害">生貴刑
+　害</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="生貴刑　支合（陽金）　破">生貴刑　支合（陽金）　破</td>
+<td class="cell" data-cell="半會（金）">半會（金）</td>
+<td class="cell" data-cell="緊張反應型">緊張反應型</td>
+<td class="cell" data-cell="對沖（天）">對沖（天）</td>
+</tr>
+<tr>
+<th class="row-h">午</th>
+<td class="cell" data-cell="對沖（地）">對沖（地）</td>
+<td class="cell" data-cell="害">害</td>
+<td class="cell" data-cell="半會（火）">半會（火）</td>
+<td class="cell" data-cell="破">破</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="自刑">自刑</td>
+<td class="cell" data-cell="支合（火） 準方三位">支合（火） 準方三位</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="半會（火）">半會（火）</td>
+<td class="cell" data-cell="靜默共存型 藏干干合組">靜默共存型<br/>藏干干合組</td>
+</tr>
+<tr>
+<th class="row-h">未</th>
+<td class="cell" data-cell="害">害</td>
+<td class="cell" data-cell="對沖（地）　庫氣刑">對沖（地）　庫氣刑</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="半會（木）">半會（木）</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="支合（火） 準方三位">支合（火） 準方三位</td>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="庫氣刑
+　破">庫氣刑
+　破</td>
+<td class="cell" data-cell="半會（木）">半會（木）</td>
+</tr>
+<tr>
+<th class="row-h">申</th>
+<td class="cell" data-cell="半會（水）">半會（水）</td>
+<td class="cell" data-cell="努力成長型">努力成長型</td>
+<td class="cell" data-cell="對沖（天）　生貴刑">對沖（天）　生貴刑</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="半會（水）">半會（水）</td>
+<td class="cell" data-cell="生貴刑　 支合（陽金） 　破">生貴刑　 支合（陽金） 　破</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="害">害</td>
+</tr>
+<tr>
+<th class="row-h">酉</th>
+<td class="cell" data-cell="破">破</td>
+<td class="cell" data-cell="半會（金）">半會（金）</td>
+<td class="cell" data-cell="緊張反應型">緊張反應型</td>
+<td class="cell" data-cell="對沖（地）">對沖（地）</td>
+<td class="cell" data-cell="支合">支合</td>
+<td class="cell" data-cell="半會（金）">半會（金）</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="互補信任型">互補信任型</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="自刑">自刑</td>
+<td class="cell" data-cell="害 準方三位">害 準方三位</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+</tr>
+<tr>
+<th class="row-h">戌</th>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="庫氣刑">庫氣刑</td>
+<td class="cell" data-cell="半會（火）">半會（火）</td>
+<td class="cell" data-cell="支合">支合</td>
+<td class="cell" data-cell="對沖（天）">對沖（天）</td>
+<td class="cell" data-cell="緊張反應型">緊張反應型</td>
+<td class="cell" data-cell="半會（火）">半會（火）</td>
+<td class="cell" data-cell="庫氣刑　破">庫氣刑　破</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="害 準方三位">害 準方三位</td>
+<td class="cell" data-cell="同">同</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+</tr>
+<tr>
+<th class="row-h">亥</th>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="準方三位">準方三位</td>
+<td class="cell" data-cell="支合（陽木）　破">支合（陽木）　破</td>
+<td class="cell" data-cell="半會（木）">半會（木）</td>
+<td class="cell" data-cell="錯位型">錯位型</td>
+<td class="cell" data-cell="對沖（天）">對沖（天）</td>
+<td class="cell" data-cell="靜默共存型 藏干干合組">靜默共存型<br/>藏干干合組</td>
+<td class="cell" data-cell="半會（木）">半會（木）</td>
+<td class="cell" data-cell="害">害</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="靜默共存型">靜默共存型</td>
+<td class="cell" data-cell="自刑">自刑</td>
+</tr>
+</tbody></table>
+</div>
+<div class="panel">
+<h2>剪影圖顯示</h2>
+<div id="phase-silhouette-area"></div>
+<div data-per-disclaimer=""></div>
+</div>
+</div>
+<script>
+  // ===== 共通注記（共通パーツ） =====
+  const PER_DISCLAIMER_TEXT =
+    "※本剪影圖為了更容易理解位相法與類型的結構特徵，而採用象徵化與變形化的表現方式。";
+
+  document.querySelectorAll("[data-per-disclaimer]").forEach((slot) => {
+    const el = document.createElement("div");
+    el.className = "per-disclaimer";
+    el.textContent = PER_DISCLAIMER_TEXT;
+    slot.replaceWith(el);
+  });
+
+  // ===== シルエット対応 =====
+  // 請將「sil」資料夾放在與本HTML相同的階層，並將PNG圖片放入其中。
+  const SIL_MAP = {
+    "同": "同.png",
+    "支合": "支合.png",
+    "半會": "半会.png",
+    "準方三位": "準方三位.png",
+    "對沖": "対冲.png",
+    "破": "破.png",
+    "害": "害.png",
+    "自刑": "自刑.png",
+    "生貴刑": "生貴刑.png",
+    "庫氣刑": "庫気刑.png",
+    "旺氣刑": "旺気刑.png",
+    "靜默共存型": "静かな共存型.png",
+    "互補信任型": "補完信頼型.png",
+    "努力成長型": "努力成長型.png",
+    "緊張反應型": "緊張反応型.png",
+    "錯位型": "すれ違い型.png",
+    "藏干干合組": "蔵干干合組.png",
+  };
+
+  function normalizeToken(s){
+    // 例：支合（陰水）→ 支合
+    return String(s).replace(/（.*?）/g, "").trim();
+  }
+
+  function splitCellText(cellText){
+    if (!cellText) return [];
+    // 全形空格→半形
+    const unified = String(cellText).replace(/\u3000/g, " ");
+    // 以空格分割（保留Excel順序）
+    const rawTokens = unified.split(/\s+/);
+    const tokens = [];
+    for (const t of rawTokens) {
+      const n = normalizeToken(t);
+      if (n) tokens.push(n);
+    }
+    return tokens;
+  }
+
+  function renderSilhouettesFromCell(cellText, basePath="./sil/"){
+    const area = document.getElementById("phase-silhouette-area");
+    if (!area) return;
+
+    const tokens = splitCellText(cellText);
+
+    // 依Excel順序最多顯示3個
+    const picked = [];
+    for (const t of tokens) {
+      if (SIL_MAP[t]) picked.push({ label: t, file: SIL_MAP[t] });
+      if (picked.length >= 3) break;
+    }
+
+    // 顯示
+    area.innerHTML = "";
+    if (picked.length === 0) {
+      const p = document.createElement("div");
+      p.style.fontSize = "13px";
+      p.style.color = "#333";
+      p.textContent = "（此儲存格尚未設定對應的剪影圖）";
+      area.appendChild(p);
+      return;
+    }
+
+    picked.forEach((item) => {
+      const wrap = document.createElement("div");
+      wrap.className = "sil-item";
+
+      const img = document.createElement("img");
+      img.src = basePath + item.file;
+      img.alt = item.label;
+
+      const cap = document.createElement("div");
+      cap.className = "sil-caption";
+      cap.textContent = item.label;
+
+      wrap.appendChild(img);
+      wrap.appendChild(cap);
+      area.appendChild(wrap);
+    });
+  }
+
+  // ===== 點擊設定 =====
+  const cells = document.querySelectorAll("td.cell[data-cell]");
+  cells.forEach((td) => {
+    td.addEventListener("click", () => {
+      document.querySelectorAll("td.cell.active").forEach(x => x.classList.remove("active"));
+      td.classList.add("active");
+      renderSilhouettesFromCell(td.dataset.cell);
+    });
+  });
+
+  // 初期顯示：左上（子×子）を自動選択
+  const first = document.querySelector("td.cell[data-cell]");
+  if (first) first.click();
+</script>
+<script>
+  // 顯示用テキストから（かっこ）を除去
+  document.querySelectorAll("td.cell").forEach(td => {
+    const raw = td.dataset.cell || "";
+    // 刪除全形括號（ ）
+    const display = raw.replace(/（.*?）/g, "").trim();
+    td.textContent = display;
+  });
+</script>
+</body>
+</html>

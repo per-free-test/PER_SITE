@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PER宇宙盤 行動領域診斷</title>
+<style>
+:root{
+  --bg:#071325;
+  --text:#eef2f8;
+  --muted:#a8b3c7;
+  --female:#fb7185;
+  --male:#60a5fa;
+  --neutral:#9ca3af;
+  --green:#7ce6a5;
+  --red:#ff6b8f;
+  --silver:#d7dee8;
+  --blue:#5aa7ff;
+  --line:rgba(255,255,255,.10);
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  min-height:100%;
+  background:radial-gradient(circle at 50% 22%, #0d1c39 0%, var(--bg) 55%, #050d1a 100%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP",sans-serif;
+}
+body{padding:16px}
+.wrap{max-width:760px;margin:0 auto;display:grid;gap:16px}
+.card{
+  background:linear-gradient(180deg, rgba(10,23,46,.96), rgba(7,18,35,.94));
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05);
+  overflow:hidden;
+}
+.section{padding:18px}
+.hero h1{
+  margin:0 0 8px;
+  font-size:clamp(26px,4.5vw,37px);
+  line-height:1.15;
+  font-weight:700;
+}
+.hero p{
+  margin:0;
+  color:var(--muted);
+  font-size:clamp(15px,3.8vw,18px);
+  line-height:1.7;
+}
+.canvas-shell{padding:14px}
+canvas{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(5,15,31,.25), rgba(8,18,34,.06));
+  aspect-ratio:1/1;
+}
+.panel-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 14px;
+  font-weight:800;
+  font-size:clamp(21px,5vw,28px);
+}
+.dot{
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:#c5ccd7;
+  flex:0 0 auto;
+}
+label{
+  display:block;
+  font-size:14px;
+  color:var(--muted);
+  margin:12px 0 8px;
+}
+select,input,button{font:inherit}
+select,input[type=text],input[type=number],input[type=date]{
+  width:100%;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(9,18,33,.78);
+  color:var(--text);
+  padding:14px 16px;
+  outline:none;
+}
+select:focus,input:focus{
+  border-color:rgba(120,170,255,.55);
+  box-shadow:0 0 0 4px rgba(90,167,255,.12);
+}
+.person-box{
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+}
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+.triple{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:10px;
+}
+.field{
+  min-width:0;
+  padding:12px 10px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(8,17,32,.45);
+}
+.flabel{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+.bigN{
+  border:none;
+  background:transparent;
+  width:100%;
+  min-width:0;
+  text-align:center;
+  color:var(--text);
+  font-size:32px;
+  line-height:1.1;
+  font-weight:800;
+  padding:6px 0 4px;
+  outline:none;
+  letter-spacing:0;
+  -moz-appearance:textfield;
+}
+.bigN::-webkit-outer-spin-button,
+.bigN::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+}
+.hint{
+  font-size:13px;
+  text-align:center;
+  color:#8f9bb0;
+}
+.preview{
+  margin-top:14px;
+  font-size:clamp(19px,4.5vw,25px);
+  font-weight:800;
+  line-height:1.6;
+}
+.preview span{
+  display:inline-block;
+  min-width:2.2em;
+  text-align:center;
+}
+.row-btns{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:14px;
+}
+.row-btns.three{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+button{
+  border:none;
+  border-radius:18px;
+  padding:15px 14px;
+  background:rgba(255,255,255,.08);
+  color:var(--text);
+  font-weight:800;
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);
+}
+button:hover{background:rgba(255,255,255,.12)}
+button.primary{
+  background:linear-gradient(180deg, rgba(88,140,255,.24), rgba(88,140,255,.12));
+  border-color:rgba(120,170,255,.28);
+}
+button.danger{
+  background:rgba(164,56,85,.18);
+  border-color:rgba(255,114,151,.28);
+}
+.toolbar{padding:18px}
+.footer-note{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+.guide-link{
+  margin-top:14px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:transparent;
+  border:none;
+  padding:0;
+  color:#d9e7ff;
+  font-weight:700;
+  font-size:17px;
+  border-radius:0;
+  cursor:pointer;
+}
+.guide-link:hover{
+  background:transparent;
+  color:#ffffff;
+  text-decoration:underline;
+}
+.guide-link .icon{
+  font-size:15px;
+  color:#94b6ff;
+}
+details.explain{margin-top:8px}
+details.explain summary{
+  list-style:none;
+  cursor:pointer;
+}
+details.explain summary::-webkit-details-marker{display:none}
+details.explain[open] summary{display:none}
+.guide-intro{
+  display:grid;
+  gap:12px;
+}
+.guide-intro p,.type-card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.9;
+  font-size:15px;
+}
+.type-list{
+  display:grid;
+  gap:16px;
+  margin-top:16px;
+}
+.type-card{
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+}
+.type-card h3{
+  margin:0 0 10px;
+  font-size:20px;
+}
+.type-card img{
+  width:100%;
+  display:block;
+  border-radius:16px;
+  margin:0 0 12px;
+}
+.close-row{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:12px;
+}
+.close-link{
+  background:transparent;
+  border:none;
+  padding:0;
+  color:#c6d4eb;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+}
+.close-link:hover{text-decoration:underline}
+
+@media (max-width:699px){
+  body{padding:10px}
+.hero h1{
+  font-size:24px;
+}
+  .section{padding:10px}
+  .person-box{padding:12px}
+
+  .row-btns.three{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .row-btns.three button:last-child{
+    grid-column:1 / -1;
+  }
+
+  .triple{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+  }
+  .field{
+    padding:9px 5px;
+    border-radius:15px;
+  }
+  .flabel{
+    font-size:11px;
+    gap:3px;
+    margin-bottom:5px;
+  }
+  .bigN{
+    font-size:clamp(24px,8vw,30px);
+    padding:4px 0 2px;
+  }
+  .hint{display:none}
+  .preview{
+    font-size:clamp(17px,4.2vw,21px);
+    line-height:1.5;
+  }
+  button{
+    padding:13px 10px;
+    border-radius:16px;
+  }
+}
+
+@media (min-width:700px){
+  .grid-2{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="card hero">
+    <div class="section">
+      <h1>PER宇宙盤 行動領域診斷</h1>
+      <p>觀察由干支編號所形成的行動領域三角形。
+請從三角形的位置與形態，
+觀察行動領域的特徵。</p>
+    </div>
+  </section>
+
+  <section class="card canvas-shell">
+    <canvas id="universe" width="1080" height="1080" aria-label="PER宇宙盤"></canvas>
+  </section>
+
+  <section class="card">
+    <div class="section">
+      <h2 class="panel-title"><span class="dot"></span>你（A）</h2>
+
+      <label for="genderA">性別</label>
+      <select id="genderA">
+        <option value="none" selected>不選擇（灰色）</option>
+        <option value="female">女性（粉紅）</option>
+        <option value="male">男性（水藍）</option>
+      </select>
+
+      <div class="person-box">
+        <div class="grid-2">
+          <div>
+            <label for="A_personName">保存名稱</label>
+            <input id="A_personName" type="text">
+          </div>
+          <div>
+            <label for="A_personSelect">從保存資料中讀取</label>
+            <select id="A_personSelect"></select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="A_dob">出生年月日</label>
+            <input id="A_dob" type="date">
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button type="button" class="primary" onclick="getMeishikiFor('A')">取得命式</button>
+          </div>
+        </div>
+
+        <div id="A_status" class="footer-note"></div>
+
+        <div class="row-btns three">
+          <button type="button" onclick="perPerson.save('A')">保存</button>
+          <button type="button" onclick="perPerson.loadToInputs('A')">套用資料</button>
+          <button type="button" class="danger" onclick="perPerson.removeSelected('A')">刪除</button>
+        </div>
+      </div>
+
+      <label>干支編號（1〜60）</label>
+      <div class="triple">
+        <div class="field">
+          <div class="flabel"><span>日</span><span>1〜60</span></div>
+          <input id="A_d" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
+          <div class="hint">日</div>
+        </div>
+        <div class="field">
+          <div class="flabel"><span>月</span><span>1〜60</span></div>
+          <input id="A_m" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
+          <div class="hint">月</div>
+        </div>
+        <div class="field">
+          <div class="flabel"><span>年</span><span>1〜60</span></div>
+          <input id="A_y" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
+          <div class="hint">年</div>
+        </div>
+      </div>
+
+      <div class="preview">A：日＝<span id="pv_A_d">-</span>　月＝<span id="pv_A_m">-</span>　年＝<span id="pv_A_y">-</span></div>
+
+      <div class="row-btns">
+        <button type="button" class="primary" onclick="plot('A')">顯示</button>
+        <button type="button" onclick="clearPerson('A')">重設</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section">
+      <h2 class="panel-title"><span class="dot"></span>對方（B）</h2>
+
+      <label for="genderB">性別</label>
+      <select id="genderB">
+        <option value="none" selected>不選擇（灰色）</option>
+        <option value="female">女性（粉紅）</option>
+        <option value="male">男性（水藍）</option>
+      </select>
+
+      <div class="person-box">
+        <div class="grid-2">
+          <div>
+            <label for="B_personName">保存名稱</label>
+            <input id="B_personName" type="text">
+          </div>
+          <div>
+            <label for="B_personSelect">從保存資料中讀取</label>
+            <select id="B_personSelect"></select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="B_dob">出生年月日</label>
+            <input id="B_dob" type="date">
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button type="button" class="primary" onclick="getMeishikiFor('B')">取得命式</button>
+          </div>
+        </div>
+
+        <div id="B_status" class="footer-note"></div>
+
+        <div class="row-btns three">
+          <button type="button" onclick="perPerson.save('B')">保存</button>
+          <button type="button" onclick="perPerson.loadToInputs('B')">套用資料</button>
+          <button type="button" class="danger" onclick="perPerson.removeSelected('B')">刪除</button>
+        </div>
+      </div>
+
+      <label>干支編號（1〜60）</label>
+      <div class="triple">
+        <div class="field">
+          <div class="flabel"><span>日</span><span>1〜60</span></div>
+          <input id="B_d" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
+          <div class="hint">日</div>
+        </div>
+        <div class="field">
+          <div class="flabel"><span>月</span><span>1〜60</span></div>
+          <input id="B_m" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
+          <div class="hint">月</div>
+        </div>
+        <div class="field">
+          <div class="flabel"><span>年</span><span>1〜60</span></div>
+          <input id="B_y" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
+          <div class="hint">年</div>
+        </div>
+      </div>
+
+      <div class="preview">B：日＝<span id="pv_B_d">-</span>　月＝<span id="pv_B_m">-</span>　年＝<span id="pv_B_y">-</span></div>
+
+      <div class="row-btns">
+        <button type="button" class="primary" onclick="plot('B')">顯示</button>
+        <button type="button" onclick="clearPerson('B')">重設</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="toolbar">
+      <div class="row-btns">
+        <button type="button" onclick="toggleTriangles()">顯示／隱藏三角形</button>
+        <button type="button" onclick="resetAll()">全部重設</button>
+      </div>
+
+      <button type="button" class="guide-link" onclick="openGuide()">
+        <span class="icon">▶</span>行動領域圖的閱讀方式
+      </button>
+
+      <div class="footer-note">
+        這不是用來判斷性格本身的圖，而是用來觀察行動方式與互動方向的圖表。輸入A與B雙方後，可以同時確認兩個三角形之間的位置關係。
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section">
+      <details id="triangleGuide" class="explain">
+        <summary>guide</summary>
+
+        <div class="close-row">
+          <button type="button" class="close-link" onclick="closeGuide()">關閉</button>
+        </div>
+
+        <div class="guide-intro">
+          <p><strong>行動領域圖的閱讀方式（三角形の観察）</strong></p>
+          <p>在行動領域圖中，會將由命式推導出的三個柱位（年、月、日）配置在圓環之上，並以連線形成三角形。這個三角形象徵著每個人所具有的行動領域方向。</p>
+          <p>在這裡，並不考慮數字或干支之間的相性，而是透過觀察三角形本身的形態，來閱讀兩人關係所呈現出的印象。此處所列出的四種類型，是較常見的三角形排列典型範例。</p>
+          <p>三角形並不代表人格本身，而是一種視覺化的觀察方式，用來觀看人在關係之中，傾向如何行動、以及如何與他人互動。</p>
+        </div>
+
+        <div class="type-list">
+          <div class="type-card">
+            <h3>① 交叉共鳴型</h3>
+            <img src="交差共鳴型.png" alt="交叉共鳴型">
+            <p>兩個三角形在中央彼此交叉，並以接近左右對稱的形態排列。由於行動領域在中心附近相互交會，因此看起來像是兩人的行動彼此產生共鳴。</p>
+            <p>這種形態相對常見，常出現在戀人或夫妻等，一邊彼此互動、一邊共同前進的關係之中。</p>
+          </div>
+
+          <div class="type-card">
+            <h3>② 平行共存型</h3>
+            <img src="平行共存型.png" alt="平行共存型">
+            <p>兩個三角形彼此分離，並不交叉，而是平行排列的形態。各自的行動領域保持獨立，呈現出互不干涉、並行前進的關係。</p>
+            <p>這種形態有時會出現在朋友關係或親子關係之中，象徵著在保持適當距離的同時，共同存在的互動方式。</p>
+          </div>
+
+          <div class="type-card">
+            <h3>③ 協力重合型</h3>
+            <img src="協力重合型.png" alt="協力重合型">
+            <p>兩個三角形有部分重疊，並共享某些共同的點或區域。由於部分行動領域彼此共有，因此兩人的活動容易自然地整合在一起。</p>
+            <p>這種形態有時會出現在夫妻關係或共同合作的活動之中，象徵著較容易建立協力關係的互動方式。</p>
+          </div>
+
+          <div class="type-card">
+            <h3>④ 刺激貫通型</h3>
+            <img src="刺激貫通.png" alt="刺激貫通型">
+            <p>其中一個三角形，呈現出貫穿另一個三角形中心附近的配置形態。由於行動領域之間產生強烈交叉，因此有時會形成彼此帶來強烈影響的關係。</p>
+            <p>這是一種較容易產生刺激與變化的配置。</p>
+          </div>
+        </div>
+
+        <div class="guide-intro" style="margin-top:18px">
+          <p><strong>關於三角形的觀察</strong></p>
+          <p>行動領域圖本身並不存在某種絕對性的法則。三角形的排列方式，有時會像是在象徵兩人關係的運作方式。</p>
+          <p>當三角形以較平穩的方式排列時，在現實生活中也較容易形成自然穩定的關係；而呈現斜向交叉的配置時，則有可能在關係之中產生刺激或衝突。</p>
+          <p>這張圖終究是一種視覺性的觀察方法。透過比較大量不同的關係，觀察夫妻、戀人、朋友等各種關係中的三角形形態，並逐漸體會其中帶來的印象與感覺，是相當重要的。</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const ganzhi = [
+  "甲子","乙丑","丙寅","丁卯","戊辰","己巳","庚午","辛未","壬申","癸酉",
+  "甲戌","乙亥","丙子","丁丑","戊寅","己卯","庚辰","辛巳","壬午","癸未",
+  "甲申","乙酉","丙戌","丁亥","戊子","己丑","庚寅","辛卯","壬辰","癸巳",
+  "甲午","乙未","丙申","丁酉","戊戌","己亥","庚子","辛丑","壬寅","癸卯",
+  "甲辰","乙巳","丙午","丁未","戊申","己酉","庚戌","辛亥","壬子","癸丑",
+  "甲寅","乙卯","丙辰","丁巳","戊午","己未","庚申","辛酉","壬戌","癸亥"
+];
+
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTXThLXknFimOLcnhBoQ4rfCly8-Koj_8ZvEFnFTw0DVt2xTwVZUr6QVySZjwJ-8eZ0g/exec";
+
+function normalizeDate(v){
+  if(!v) return "";
+  const s = String(v).trim();
+  const m = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if(!m) return s;
+  const y = m[1];
+  const mo = String(m[2]).padStart(2, "0");
+  const d = String(m[3]).padStart(2, "0");
+  return `${y}-${mo}-${d}`;
+}
+
+async function getMeishikiFor(prefix){
+  const dobEl = document.getElementById(`${prefix}_dob`);
+  const statusEl = document.getElementById(`${prefix}_status`);
+  const birth = dobEl?.value || "";
+
+  if(!birth){
+    if(statusEl) statusEl.textContent = "先に出請輸入出生年月日。";
+    alert("出請輸入出生年月日。");
+    return;
+  }
+
+  try{
+    if(statusEl) statusEl.textContent = "取得中…";
+
+    const res = await fetch(APPS_SCRIPT_URL + "?birth=" + encodeURIComponent(birth), {
+      method: "GET",
+      cache: "no-store"
+    });
+
+    if(!res.ok){
+      throw new Error("Apps Script 取得失敗。HTTP " + res.status);
+    }
+
+    const data = await res.json();
+
+    if(!data.ok){
+      throw new Error(data.error || "取得命式できませんでした。");
+    }
+
+    const D = parseN(data.day);
+    const M = parseN(data.month);
+    const Y = parseN(data.year);
+
+    if(!Number.isInteger(D) || !Number.isInteger(M) || !Number.isInteger(Y)){
+      throw new Error("編號取得失敗。請確認回傳資料。");
+    }
+
+    document.getElementById(`${prefix}_d`).value = D;
+    document.getElementById(`${prefix}_m`).value = M;
+    document.getElementById(`${prefix}_y`).value = Y;
+
+    const apiDob = normalizeDate(data.birth || birth);
+    if(apiDob && dobEl) dobEl.value = apiDob;
+
+    updatePreview();
+    plot(prefix);
+
+    if(statusEl){
+      statusEl.textContent = `取得できました。出生年月日 ${data.birth || birth} / 日 ${D} / 月 ${M} / 年 ${Y}`;
+    }
+  }catch(err){
+    if(statusEl) statusEl.textContent = `無法取得。 ${err.message}`;
+    alert("無法取得。\n" + err.message);
+  }
+}
+
+const c = document.getElementById('universe');
+const ctx = c.getContext('2d');
+const W = c.width, H = c.height;
+const cx = W / 2, cy = H / 2;
+const R_ring = 420;
+const R_ganzhi = R_ring + 20;
+const R_nums = R_ring + 48;
+const R_points = R_ring - 28;
+const seasonInset = 240;
+
+const rad = deg => deg * Math.PI / 180;
+const toCanvasAngle = degTopCW => rad(degTopCW - 90);
+const angleTicks = n => ((n % 60) * 6);
+const angleLabels = n => ((n % 60) * 6 - 6);
+
+function genderToColor(g){
+  const root = getComputedStyle(document.documentElement);
+  if(g === 'female') return root.getPropertyValue('--female').trim();
+  if(g === 'male') return root.getPropertyValue('--male').trim();
+  return root.getPropertyValue('--neutral').trim();
+}
+
+let showTriangles = true;
+let triangleAnimT = 1;
+
+const state = {
+  A:{y:null,m:null,d:null,gender:'none',color:genderToColor('none')},
+  B:{y:null,m:null,d:null,gender:'none',color:genderToColor('none')}
+};
+
+function bandColor(idx){
+  const root = getComputedStyle(document.documentElement);
+  if(idx <= 15) return root.getPropertyValue('--green').trim();
+  if(idx <= 30) return root.getPropertyValue('--red').trim();
+  if(idx <= 45) return root.getPropertyValue('--silver').trim();
+  return root.getPropertyValue('--blue').trim();
+}
+
+function drawBase(){
+  ctx.clearRect(0,0,W,H);
+
+  const arcs = [
+    {from:-90,to:0,color:bandColor(1)},
+    {from:0,to:90,color:bandColor(16)},
+    {from:90,to:180,color:bandColor(31)},
+    {from:180,to:270,color:bandColor(46)}
+  ];
+
+  ctx.lineWidth = 3;
+  ctx.setLineDash([8,8]);
+  arcs.forEach(a=>{
+    ctx.beginPath();
+    ctx.strokeStyle = a.color;
+    ctx.arc(cx,cy,R_ring,toCanvasAngle(a.from),toCanvasAngle(a.to));
+    ctx.stroke();
+  });
+  ctx.setLineDash([]);
+
+  const sectors = [
+    {from:-90,to:0,fill:'rgba(123,209,95,.10)'},
+    {from:0,to:90,fill:'rgba(255,107,143,.10)'},
+    {from:90,to:180,fill:'rgba(220,226,235,.10)'},
+    {from:180,to:270,fill:'rgba(90,167,255,.10)'}
+  ];
+
+  sectors.forEach(s=>{
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,seasonInset,toCanvasAngle(s.from),toCanvasAngle(s.to));
+    ctx.closePath();
+    ctx.fillStyle = s.fill;
+    ctx.fill();
+  });
+
+  ctx.save();
+  ctx.globalCompositeOperation = 'screen';
+  const glow = ctx.createRadialGradient(cx,cy,seasonInset*.12,cx,cy,seasonInset);
+  glow.addColorStop(0,'rgba(255,255,255,.34)');
+  glow.addColorStop(.45,'rgba(255,255,255,.14)');
+  glow.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(cx,cy,seasonInset,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.strokeStyle = 'rgba(255,255,255,.30)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(cx,cy-R_ring);
+  ctx.lineTo(cx,cy+R_ring);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(cx-R_ring,cy);
+  ctx.lineTo(cx+R_ring,cy);
+  ctx.stroke();
+
+  for(let n=1;n<=60;n++){
+    const a = toCanvasAngle(angleTicks(n));
+    const cos = Math.cos(a), sin = Math.sin(a);
+    const is5 = (n % 5 === 0);
+    const lenOuter = is5 ? 18 : 10;
+    const x1 = cx + R_ring * cos;
+    const y1 = cy + R_ring * sin;
+    const x2 = cx + (R_ring + lenOuter) * cos;
+    const y2 = cy + (R_ring + lenOuter) * sin;
+
+    ctx.strokeStyle = is5 ? 'rgba(255,255,255,.48)' : 'rgba(255,255,255,.28)';
+    ctx.lineWidth = is5 ? 2 : 1;
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+  }
+
+  for(let n=1;n<=60;n++){
+    const a = toCanvasAngle(angleLabels(n));
+
+    const tx = cx + R_nums * Math.cos(a);
+    const ty = cy + R_nums * Math.sin(a);
+    ctx.fillStyle = 'rgba(255,255,255,.92)';
+    ctx.font = '700 18px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(n === 60 ? 60 : n), tx, ty);
+
+    const gx = cx + R_ganzhi * Math.cos(a);
+    const gy = cy + R_ganzhi * Math.sin(a);
+    ctx.fillStyle = 'rgba(255,255,255,.96)';
+    ctx.font = '600 17px sans-serif';
+    ctx.fillText(ganzhi[n-1], gx, gy);
+  }
+}
+
+function dotPosition(n){
+  const a = toCanvasAngle(angleLabels(n));
+  return {
+    x: cx + R_points * Math.cos(a),
+    y: cy + R_points * Math.sin(a)
+  };
+}
+
+function drawPerson(key){
+  const p = state[key];
+  const nums = [p.d,p.m,p.y].filter(v => Number.isInteger(v));
+
+  ctx.save();
+
+  nums.forEach(n=>{
+    const pt = dotPosition(n);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(pt.x,pt.y,6,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.font = '700 13px sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,.92)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText(String(n), pt.x, pt.y + 8);
+  });
+
+  if(showTriangles && nums.length === 3){
+    const pts = [p.d,p.m,p.y].map(dotPosition);
+    ctx.strokeStyle = p.color;
+    ctx.lineWidth = 2.2;
+
+    const t = typeof triangleAnimT === 'number' ? triangleAnimT : 1;
+    const s = t * 3;
+
+    const drawSeg = (from,to,prog)=>{
+      const x = from.x + (to.x - from.x) * prog;
+      const y = from.y + (to.y - from.y) * prog;
+      ctx.beginPath();
+      ctx.moveTo(from.x,from.y);
+      ctx.lineTo(x,y);
+      ctx.stroke();
+    };
+
+    drawSeg(pts[0],pts[1],Math.min(Math.max(s-0,0),1));
+    if(s > 1) drawSeg(pts[1],pts[2],Math.min(Math.max(s-1,0),1));
+    if(s > 2) drawSeg(pts[2],pts[0],Math.min(Math.max(s-2,0),1));
+  }
+
+  ctx.restore();
+}
+
+function redraw(){
+  drawBase();
+  drawPerson('A');
+  drawPerson('B');
+}
+
+function startTriangleAnim(){
+  triangleAnimT = 0;
+  redraw();
+
+  const start = performance.now();
+  const dur = 900;
+
+  function tick(now){
+    triangleAnimT = Math.min((now - start) / dur, 1);
+    redraw();
+    if(triangleAnimT < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function parseN(v){
+  const n = parseInt(v,10);
+  return (n >= 1 && n <= 60) ? n : null;
+}
+
+function toGanzhiLabel(n){
+  if(!Number.isInteger(n) || n < 1 || n > 60) return '-';
+  return ganzhi[n - 1];
+}
+
+function updatePreview(){
+  ['A','B'].forEach(p=>{
+    const d = parseN(document.getElementById(`${p}_d`).value);
+    const m = parseN(document.getElementById(`${p}_m`).value);
+    const y = parseN(document.getElementById(`${p}_y`).value);
+
+    document.getElementById(`pv_${p}_d`).textContent = toGanzhiLabel(d);
+    document.getElementById(`pv_${p}_m`).textContent = toGanzhiLabel(m);
+    document.getElementById(`pv_${p}_y`).textContent = toGanzhiLabel(y);
+      });
+}
+
+function hookInputLive(){
+  ['A','B'].forEach(p=>{
+    ['d','m','y'].forEach(k=>{
+      document.getElementById(`${p}_${k}`).addEventListener('input', updatePreview);
+    });
+  });
+}
+
+function hookGender(){
+  const ga = document.getElementById('genderA');
+  const gb = document.getElementById('genderB');
+
+  const apply = ()=>{
+    state.A.gender = ga.value;
+    state.B.gender = gb.value;
+    state.A.color = genderToColor(state.A.gender);
+    state.B.color = genderToColor(state.B.gender);
+    redraw();
+  };
+
+  ga.addEventListener('change', apply);
+  gb.addEventListener('change', apply);
+  apply();
+}
+
+function openGuide(){
+  const el = document.getElementById('triangleGuide');
+  el.open = true;
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function closeGuide(){
+  const el = document.getElementById('triangleGuide');
+  el.open = false;
+}
+
+window.plot = function(person){
+  state[person].d = parseN(document.getElementById(person+'_d').value);
+  state[person].m = parseN(document.getElementById(person+'_m').value);
+  state[person].y = parseN(document.getElementById(person+'_y').value);
+  startTriangleAnim();
+};
+
+window.clearPerson = function(person){
+  state[person] = {...state[person], d:null, m:null, y:null};
+  document.getElementById(person+'_d').value = '';
+  document.getElementById(person+'_m').value = '';
+  document.getElementById(person+'_y').value = '';
+  const dobEl = document.getElementById(person+'_dob');
+  const statusEl = document.getElementById(person+'_status');
+  if(dobEl) dobEl.value = '';
+  if(statusEl) statusEl.textContent = '';
+  updatePreview();
+  redraw();
+};
+
+window.resetAll = function(){
+  ['A','B'].forEach(p=>{
+    state[p] = {...state[p], d:null, m:null, y:null};
+    document.getElementById(p+'_d').value = '';
+    document.getElementById(p+'_m').value = '';
+    document.getElementById(p+'_y').value = '';
+    const dobEl = document.getElementById(p+'_dob');
+    const statusEl = document.getElementById(p+'_status');
+    if(dobEl) dobEl.value = '';
+    if(statusEl) statusEl.textContent = '';
+  });
+  updatePreview();
+  redraw();
+};
+
+window.toggleTriangles = function(){
+  showTriangles = !showTriangles;
+  redraw();
+};
+
+const perPerson = (()=>{
+  const LS_KEY = 'PER-people-kanshi-v4';
+  const el = id => document.getElementById(id);
+
+  const readStore = ()=>{
+    try{
+      return JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    }catch(e){
+      return {};
+    }
+  };
+
+  const writeStore = obj => localStorage.setItem(LS_KEY, JSON.stringify(obj));
+
+  const getNumsFromInputs = prefix => ({
+    d:Number(el(prefix+'_d')?.value || ''),
+    m:Number(el(prefix+'_m')?.value || ''),
+    y:Number(el(prefix+'_y')?.value || '')
+  });
+
+  const setNumsToInputs = (prefix, nums)=>{
+    el(prefix+'_d').value = nums.d ?? '';
+    el(prefix+'_m').value = nums.m ?? '';
+    el(prefix+'_y').value = nums.y ?? '';
+  };
+
+  const validateNums = ({d,m,y}) => [d,m,y].every(n => Number.isFinite(n) && n >= 1 && n <= 60);
+
+  const normalize = p => ({
+    name: p.name,
+    dob: p.dob || "",
+    d: p.D ?? p.d,
+    m: p.M ?? p.m,
+    y: p.Y ?? p.y,
+    kanshiD: p.kanshiD || "",
+    kanshiM: p.kanshiM || "",
+    kanshiY: p.kanshiY || ""
+  });
+
+  const refreshSelect = prefix=>{
+    const sel = el(prefix+'_personSelect');
+    if(!sel) return;
+
+    const store = readStore();
+    const keys = Object.keys(store).sort();
+    const cur = sel.value;
+
+    sel.innerHTML = '';
+
+    const opt0 = document.createElement('option');
+    opt0.value = '';
+    opt0.textContent = keys.length ? '— 選擇保存資料 —' : '（尚無保存資料）';
+    sel.appendChild(opt0);
+
+    keys.forEach(nameKey=>{
+      const p = normalize(store[nameKey] || {});
+      const opt = document.createElement('option');
+      opt.value = nameKey;
+      opt.textContent = `${nameKey}（${p.dob || '無日期'} / 日${p.d} 月${p.m} 年${p.y}）`;
+      sel.appendChild(opt);
+    });
+
+    if(cur && keys.includes(cur)) sel.value = cur;
+  };
+
+  const refreshAllSelects = ()=>{
+    refreshSelect('A');
+    refreshSelect('B');
+  };
+
+  const save = prefix=>{
+    const name = (el(prefix+'_personName')?.value || '').trim();
+    const dob = (el(prefix+'_dob')?.value || '').trim();
+    const nums = getNumsFromInputs(prefix);
+
+    if(!validateNums(nums)){
+      alert('日・月・年の干支編號（1〜60）をすべて入力してから保存してください。');
+      return;
+    }
+    if(!name){
+      alert('保存名稱を入れてください。');
+      return;
+    }
+
+    const store = readStore();
+    store[name] = {
+      name,
+      dob,
+      D: nums.d,
+      M: nums.m,
+      Y: nums.y,
+      kanshiD: toGanzhiLabel(nums.d),
+      kanshiM: toGanzhiLabel(nums.m),
+      kanshiY: toGanzhiLabel(nums.y),
+      savedAt: new Date().toISOString()
+    };
+    writeStore(store);
+    refreshAllSelects();
+    el(prefix+'_personSelect').value = name;
+    alert('已保存。');
+  };
+
+  const loadToInputs = prefix=>{
+    const sel = el(prefix+'_personSelect');
+    if(!sel || !sel.value) return;
+
+    const raw = readStore()[sel.value];
+    if(!raw) return;
+
+    const p = normalize(raw);
+    setNumsToInputs(prefix, p);
+    el(prefix+'_personName').value = sel.value;
+    const dobEl = el(prefix+'_dob');
+    const statusEl = el(prefix+'_status');
+    if(dobEl) dobEl.value = p.dob || "";
+    if(statusEl) statusEl.textContent = '已讀取保存資料。';
+    updatePreview();
+    plot(prefix);
+  };
+
+  const removeSelected = prefix=>{
+    const sel = el(prefix+'_personSelect');
+    if(!sel || !sel.value){
+      alert('刪除するデータを選んでください。');
+      return;
+    }
+
+    const nameKey = sel.value;
+    if(!confirm(`「${nameKey}」を刪除しますか？`)) return;
+
+    const store = readStore();
+    delete store[nameKey];
+    writeStore(store);
+    refreshAllSelects();
+  };
+
+  const wire = prefix=>{
+    const sel = el(prefix+'_personSelect');
+    if(sel) sel.addEventListener('change', ()=>loadToInputs(prefix));
+  };
+
+  const init = ()=>{
+    refreshAllSelects();
+    wire('A');
+    wire('B');
+  };
+
+  return {init, save, loadToInputs, removeSelected, refreshAllSelects};
+})();
+
+drawBase();
+hookInputLive();
+hookGender();
+perPerson.init();
+updatePreview();
+</script>
+</body>
+</html>

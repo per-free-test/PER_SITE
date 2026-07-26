@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>60花甲子 円の表</title>
+  <style>
+    :root{
+      --bg: #070A12;
+      --panel: rgba(12, 18, 36, 0.72);
+      --text: #EAF0FF;
+      --muted: rgba(234,240,255,0.62);
+
+      /* 宇宙盤トーン */
+      --cosmic-line: rgba(46,168,255,0.35);
+      --cosmic-glow: rgba(46,168,255,0.18);
+
+      /* きらきら（ネオン寄り） */
+      --spark-cyan: rgba(90, 240, 255, 0.28);
+      --spark-blue: rgba(90, 140, 255, 0.22);
+      --spark-violet: rgba(190, 120, 255, 0.22);
+      --spark-pink: rgba(255, 120, 220, 0.18);
+      --spark-gold: rgba(255, 215, 120, 0.18);
+      --spark-green: rgba(120, 255, 190, 0.18);
+
+      /* 思考リング（内） */
+      --thought-a: rgba(90, 240, 255, 0.18);
+      --thought-b: rgba(190, 120, 255, 0.16);
+
+      /* 行動リング（外） */
+      --action-a: rgba(255, 215, 120, 0.14);
+      --action-b: rgba(120, 255, 190, 0.14);
+
+      /* 戻るボタン（抑えた色） */
+      --btn-bg: #0A0E1A;
+      --btn-text: #B8C0D9;
+      --btn-border: rgba(46,168,255,0.28);
+      --btn-bg-hover: rgba(10, 14, 26, 0.92);
+      --btn-border-hover: rgba(46,168,255,0.42);
+    }
+   html, body{
+  height: 100%;
+  margin: 0;
+  background: #ffffff;
+  color: #222222;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+}
+       .wrap{
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 6px 6px 20px;
+    }
+
+   .title{
+  font-size: 14px;
+  color: #555555;   /* ← グレーに変更 */
+  margin: 6px 4px 10px;
+  letter-spacing: 0.02em;
+}
+  
+    /* === 円エリア（スマホ優先） === */
+    .circle-area{
+      display: grid;
+      place-items: center;
+      width: min(97vw, 620px);
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      box-shadow:
+        0 0 0 1px #dddddd inset;
+       
+    }
+
+    /* 外縁 */
+    .circle-area::before{
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 999px;
+  border: 1px solid #cccccc;  /* ← やわらかいグレー */
+  box-shadow: none;
+}
+
+
+    /* ほんのり星雲感（きらきら） */
+    .nebula{
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+      opacity: 0.6;
+      background:
+        radial-gradient(220px 160px at 25% 30%, var(--spark-cyan), rgba(0,0,0,0) 70%),
+        radial-gradient(240px 180px at 72% 28%, var(--spark-violet), rgba(0,0,0,0) 70%),
+        radial-gradient(260px 200px at 35% 78%, var(--spark-green), rgba(0,0,0,0) 70%),
+        radial-gradient(260px 200px at 75% 78%, var(--spark-gold), rgba(0,0,0,0) 70%);
+      filter: blur(0.2px);
+    }
+
+
+    /* 中央（春夏秋冬） */
+    .center-grid{
+      position: absolute;
+      inset: 18%;
+      border-radius: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      padding: 10px;
+      pointer-events: none;
+    }
+
+    .center-cell{
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      font-size: 13px;
+      color: rgba(234,240,255,0.85);
+      letter-spacing: 0.15em;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+    }
+
+    /* 冬・春・秋・夏（淡く色） */
+    .center-cell:nth-child(1){ /* 冬 */
+      background: rgba(100, 140, 220, 0.14);
+    }
+    .center-cell:nth-child(2){ /* 春 */
+      background: rgba(80, 200, 120, 0.14);
+    }
+    .center-cell:nth-child(3){ /* 秋 */
+      background: rgba(200, 170, 90, 0.14);
+    }
+    .center-cell:nth-child(4){ /* 夏 */
+      background: rgba(255, 120, 80, 0.14);
+    }
+
+    /* 項目ボタン（番号/干支） */
+    .ring-item{
+      position: absolute;
+      background: transparent;
+      border: 0;
+      padding: 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ring-item:focus-visible{
+      outline: 2px solid rgba(46,168,255,0.6);
+      outline-offset: 2px;
+    }
+
+    /* 番号（外） */
+    .num{
+  font-size: 11px;
+  color: #666666;   /* ← グレー */
+  line-height: 1;
+}
+   
+
+
+/* 干支（内） 中心に向かって縦配置 */
+.kanshi{
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.05;
+  color: #444444;   /* ← 少し濃いグレー */
+  text-shadow: none;
+}
+
+    /* スマホで押しやすく */
+    .ring-item.kanshi-btn{
+      padding: 10px 10px;
+    }
+   /* 重なり順を明示 */
+.num-btn{
+  z-index: 6; /* 番号は最前面 */
+}
+
+.kanshi-btn{
+  z-index: 5; /* 干支はその次 */
+}
+
+.ring,
+.nebula,
+.center-grid{
+  z-index: 1;
+}
+
+    /* === カード表示エリア（円の下） === */
+    .cards{
+      width: min(92vw, 560px);
+      margin: 14px auto 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .cards.hidden{
+      display: none;
+    }
+
+    /* フェードのみ */
+    .fade{
+      opacity: 0;
+      transition: opacity 220ms ease-out;
+    }
+    .fade.show{
+      opacity: 1;
+    }
+
+    .card-frame{
+      background: var(--panel);
+      border-radius: 18px;
+      border: 1px solid var(--cosmic-line);
+      box-shadow: 0 0 26px var(--cosmic-glow), 0 10px 36px rgba(0,0,0,0.55);
+      overflow: hidden;
+    }
+
+    .card-frame img{
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .back-row{
+      display: grid;
+      place-items: center;
+      margin-top: 4px;
+    }
+
+    .back-btn{
+      border: 1px solid var(--btn-border);
+      color: var(--btn-text);
+      background: var(--btn-bg);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 14px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
+    }
+    .back-btn:hover{
+      background: var(--btn-bg-hover);
+      border-color: var(--btn-border-hover);
+      color: rgba(234,240,255,0.86);
+    }
+    .back-btn:focus-visible{
+      outline: 2px solid rgba(46,168,255,0.55);
+      outline-offset: 2px;
+    }
+
+    .hint{
+      width: min(92vw, 560px);
+      margin: 10px auto 0;
+      color: rgba(234,240,255,0.55);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+<div class="title">六十花甲子圓盤（編號＝外圈／干支＝內圈） 點擊可切換「上方：十天干」「下方：十二地支」</div>
+    
+    <div class="circle-area" id="circle">
+      <div class="nebula" aria-hidden="true"></div>
+
+
+      <!-- 春夏秋冬 -->
+      <div class="center-grid" aria-hidden="true">
+        <div class="center-cell">冬</div>
+        <div class="center-cell">春</div>
+        <div class="center-cell">秋</div>
+        <div class="center-cell">夏</div>
+      </div>
+    </div>
+
+    <!-- カード表示（円の下） -->
+    <div class="cards hidden fade" id="cards">
+      <div class="card-frame" aria-label="十干カード（上）">
+        <img id="stemImg" alt="十干カード" />
+      </div>
+      <div class="card-frame" aria-label="十二支カード（下）">
+        <img id="branchImg" alt="十二支カード" />
+      </div>
+
+      <div class="back-row">
+        <button class="back-btn" id="backBtn" type="button">戻る</button>
+      </div>
+    </div>
+
+    <div class="hint">
+     
+    </div>
+  </div>
+
+  <script>
+    // === 干支データ（標準の60花甲子：1=甲子） ===
+    const stems = ["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+    const branches = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+
+    function getKanshiByNumber(n){ // n:1..60
+      const stem = stems[(n - 1) % 10];
+      const branch = branches[(n - 1) % 12];
+      return { stem, branch, label: stem + branch };
+    }
+
+    // === 画像パス（assets構成は今のままでOK） ===
+    function stemImgPath(stemChar){
+      return `assets/stems/${stemChar}.png`;
+    }
+    function branchImgPath(branchChar){
+      return `assets/branches/${branchChar}.png`;
+    }
+
+    const circle = document.getElementById("circle");
+    const cards = document.getElementById("cards");
+    const stemImg = document.getElementById("stemImg");
+    const branchImg = document.getElementById("branchImg");
+    const backBtn = document.getElementById("backBtn");
+
+    function buildRing(){
+      circle.querySelectorAll(".ring-item").forEach(el => el.remove());
+
+      const rect = circle.getBoundingClientRect();
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+
+      // ★重なり回避：外/内の半径を少し広げる
+      const rNum = rect.width * 0.445; // 番号：外
+      const rKan = rect.width * 0.345; // 干支：内（少し内側へ）
+
+      // 角度：真上スタート
+      const offsetDeg = -90;
+
+      for(let i=1; i<=60; i++){
+        const t = (i - 1) / 60;
+        const deg = offsetDeg + t * 360;
+        const rad = deg * Math.PI / 180;
+
+        // --- 番号（外） ---
+        const numBtn = document.createElement("button");
+        numBtn.type = "button";
+        numBtn.className = "ring-item num-btn";
+        numBtn.setAttribute("aria-label", `番号 ${i}`);
+
+        const nx = cx + rNum * Math.cos(rad);
+        const ny = cy + rNum * Math.sin(rad);
+        numBtn.style.left = `${nx}px`;
+        numBtn.style.top  = `${ny}px`;
+        numBtn.style.transform = "translate(-50%, -50%)";
+
+        const numSpan = document.createElement("span");
+        numSpan.className = "num";
+        numSpan.textContent = String(i);
+        numBtn.appendChild(numSpan);
+
+        numBtn.addEventListener("click", () => openCards(i));
+        circle.appendChild(numBtn);
+
+        // --- 干支（内） ---
+        const { label } = getKanshiByNumber(i);
+        const kanBtn = document.createElement("button");
+        kanBtn.type = "button";
+        kanBtn.className = "ring-item kanshi-btn";
+        kanBtn.setAttribute("aria-label", `干支 ${label}`);
+
+        const kx = cx + rKan * Math.cos(rad);
+        const ky = cy + rKan * Math.sin(rad);
+        kanBtn.style.left = `${kx}px`;
+        kanBtn.style.top  = `${ky}px`;
+
+        const kanSpan = document.createElement("span");
+        kanSpan.className = "kanshi";
+        kanSpan.innerHTML = `${label[0]}<br>${label[1]}`;
+
+       
+
+// ★中心に向けて放射状に回転（ボタン全体を回す）
+kanBtn.style.transform = `translate(-50%, -50%) rotate(${deg + 90}deg)`;
+        kanBtn.appendChild(kanSpan);
+        kanBtn.addEventListener("click", () => openCards(i));
+        circle.appendChild(kanBtn);
+      }
+    }
+
+    // === カード表示（フェードのみ） ===
+    function openCards(n){
+      const { stem, branch } = getKanshiByNumber(n);
+
+      stemImg.src = stemImgPath(stem);
+      stemImg.alt = `十干カード：${stem}`;
+
+      branchImg.src = branchImgPath(branch);
+      branchImg.alt = `十二支カード：${branch}`;
+
+      cards.classList.remove("hidden");
+      requestAnimationFrame(() => cards.classList.add("show"));
+      cards.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeCards(){
+      cards.classList.remove("show");
+      setTimeout(() => cards.classList.add("hidden"), 220);
+      document.getElementById("circle").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    backBtn.addEventListener("click", closeCards);
+
+    // リサイズ対応
+    let resizeTimer = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildRing, 120);
+    });
+
+    buildRing();
+  </script>
+</body>
+</html>

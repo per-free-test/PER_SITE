@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PER FREE TEST</title>
+<style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0 12px 40px;
+            font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+            background: #f7f4ee;
+            color: #222;
+        }
+
+        /* トップ画像 */
+        .hero {
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+
+        .hero img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
+
+        /* 観測甲板全体 */
+        .observation-deck {
+            max-width: 1100px;
+            margin: 35px auto 0;
+            text-align: center;
+        }
+
+        .observation-deck > h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            color: #1d2850;
+        }
+
+        .deck-intro {
+            margin: 0 0 30px;
+            color: #555;
+            font-size: 16px;
+        }
+
+        /* 各カテゴリー */
+        .deck-section {
+            margin-top: 42px;
+        }
+
+        .section-title {
+            margin: 0 0 8px;
+            font-size: 24px;
+            color: #1d2850;
+        }
+
+        .section-description {
+            margin: 0 0 22px;
+            color: #666;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* 人物登録 */
+        .registration-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 24px 28px;
+            border: 1px solid #c6a75e;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #fffdf8 0%, #f4ede2 100%);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            text-decoration: none;
+            color: #222;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .registration-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+        }
+
+        .registration-icon {
+            flex-shrink: 0;
+            font-size: 42px;
+        }
+
+        .registration-text {
+            text-align: left;
+        }
+
+        .registration-text h3 {
+            margin: 0 0 8px;
+            font-size: 21px;
+            color: #34235f;
+        }
+
+        .registration-text p {
+            margin: 0;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* カード一覧 */
+        .deck-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .deck-card {
+            display: block;
+            padding: 24px 18px;
+            border: 1px solid #c6a75e;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #fffdf8 0%, #f4ede2 100%);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            text-decoration: none;
+            color: #222;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        a.deck-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+        }
+
+        .deck-icon {
+            margin-bottom: 8px;
+            font-size: 34px;
+        }
+
+        .deck-card h3 {
+            margin: 6px 0 10px;
+            font-size: 20px;
+            color: #34235f;
+        }
+
+        .deck-card p {
+            margin: 0;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* まだリンクしていないカード */
+        .unavailable {
+            opacity: 0.62;
+            cursor: default;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 11px;
+            border-radius: 999px;
+            background: rgba(52, 35, 95, 0.08);
+            color: #6a6080;
+            font-size: 12px;
+        }
+
+        /* スマートフォン対応 */
+        @media (max-width: 850px) {
+            .deck-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            body {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            .deck-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .observation-deck > h1 {
+                font-size: 25px;
+            }
+
+            .section-title {
+                font-size: 21px;
+            }
+
+            .registration-card {
+                display: block;
+                padding: 22px 18px;
+            }
+
+            .registration-icon {
+                margin-bottom: 8px;
+            }
+
+            .registration-text {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- トップ画像 -->
+<div class="hero">
+<img alt="PER 人生探索宇宙站" src="images/per_top.png"/>
+</div>
+<main class="observation-deck">
+<h1>🔭 觀測甲板</h1>
+<p class="deck-intro">
+            請選擇您想觀測的人生主題。
+        </p>
+<!-- 人物資料 -->
+<section class="deck-section">
+<h2 class="section-title">👤 人物資料</h2>
+<p class="section-description">
+                進行診斷前，請先建立並儲存要觀測的人物資料。
+            </p>
+<a class="registration-card" href="PER_ENGINE_ZH/people_kanshi_store_fixed_v3_ZH_compact(1).html">
+<div class="registration-icon">👤</div>
+<div class="registration-text">
+<h3>建立人物資料</h3>
+<p>
+                        請輸入姓名或暱稱與出生年月日，建立診斷所需的人物資料。
+                    </p>
+</div>
+</a>
+</section>
+<!-- 診断 -->
+<section class="deck-section">
+<h2 class="section-title">🔮 診斷</h2>
+<p class="section-description">
+PER 根據出生日期推算年、月、日的十干十二支，並結合位相法、干合、六十花甲子等規則進行診斷。至於位相法未涵蓋的十二地支相性，則採用自古以來在中國傳承的占法進行判讀。
+</p>
+<div class="deck-grid">
+
+
+
+
+
+
+
+<a class="deck-card" href="PER_宇宙盤_行動領域診斷_繁體中文版/PER_宇宙盤_行動領域診斷_繁體中文版.html">
+<div class="deck-icon">🌌</div>
+<h3>宇宙盤</h3>
+<p>看見兩人的人生方向。</p>
+</a>
+<a class="deck-card" href="PER_日支身體性相性ZH/PER_people_nisshi_clean_v3_ZH(1).html">
+<div class="deck-icon">💗</div>
+<h3>身體性相性診斷</h3>
+<p>了解身體與親密關係的契合。</p>
+</a>
+<a class="deck-card" href="PER APP 繁體中文版/PER_緣判定_繁體中文版_v2.html">
+<div class="deck-icon">💕</div>
+<h3>緣份診斷</h3>
+<p>探索兩人的深層緣分。</p>
+</a></div>
+</section><section class="deck-section"><h2 class="section-title">🔍 觀察</h2>
+<p class="section-description">
+PER 的觀測並非占卜，而是透過不同的視角觀察人生、人際關係與時代的變化，幫助您發現新的理解、不同的可能，以及人生中的各種連結。
+</p>
+<div class="deck-grid"><a class="deck-card" href="PER_愛的構成診斷.html">
+<div class="deck-icon">❤️</div>
+<h3>愛的構成診斷</h3>
+<p>探索愛情的組成方式。</p>
+</a><a class="deck-card" href="PER_善意流動診斷.html">
+<div class="deck-icon">🌊</div>
+<h3>善意流動診斷</h3>
+<p>觀察善意如何流動。</p>
+</a><a class="deck-card" href="PER_等待的結構診斷.html">
+<div class="deck-icon">⏳</div>
+<h3>等待的結構診斷</h3>
+<p>理解等待背後的結構。</p>
+</a></div></section>
+<!-- ルールと資料 -->
+<section class="deck-section">
+<h2 class="section-title">📖 規則</h2>
+<p class="section-description">
+PER 的規則以算命學的六十花甲子、位相法與干合為基礎，並根據自古以來在中國傳承的十二地支關係進行分類與判讀，使診斷更容易理解與運用。
+</p>
+<div class="deck-grid">
+<a class="deck-card" href="６０花甲子円表/PER_60kanshi_circle_master.html">
+<div class="deck-icon">⭕</div>
+<h3>六十花甲子圓表</h3>
+<p>了解六十花甲子的循環。</p>
+</a>
+<a class="deck-card" href="PER_位相法_類型表_繁體中文版/位相法_類型表_繁體中文版_準方三位_複数判定版.html">
+<div class="deck-icon">☯</div>
+<h3>位相法類型表</h3>
+<p>了解位相法的分類。</p>
+</a>
+</div>
+</section>
+</main>
+</body>
+</html>

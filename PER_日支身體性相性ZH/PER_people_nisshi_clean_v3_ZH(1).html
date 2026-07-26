@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PER：日支之間的身體性相性</title>
+<style>
+  :root{
+    --bg:#071325;
+    --panel:#0d1c39;
+    --panel2:#09162c;
+    --text:#eef2f8;
+    --line:rgba(255,255,255,.10);
+    --btn:#18345f;
+    --btn2:#244a86;
+    --danger:#5d2333;
+    --danger2:#7a2d43;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    padding:20px;
+    background:radial-gradient(circle at 50% 20%, #10254a 0%, var(--bg) 56%, #040b17 100%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans TC","Noto Sans JP",sans-serif;
+  }
+  .wrap{max-width:1100px;margin:0 auto;display:grid;gap:16px}
+  .card{
+    border:none;
+    border-radius:0;
+    box-shadow:none;
+    background:transparent;
+}
+  .section{padding:20px}
+  h1{margin:0;font-size:30px;font-weight:800}
+  h2{margin:0 0 14px;font-size:24px;font-weight:800}
+  h3{margin:0 0 12px;font-size:20px;font-weight:800}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:900px){ .grid2{grid-template-columns:1fr} }
+  label{display:block;margin:0 0 8px;font-size:16px;font-weight:700}
+  select,button{
+    width:100%;
+    font:inherit;
+    color:var(--text);
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(9,18,33,.78);
+    padding:14px 16px;
+  }
+  button{cursor:pointer;background:linear-gradient(180deg, rgba(88,140,255,.24), rgba(88,140,255,.12));}
+  button:hover{background:linear-gradient(180deg, rgba(88,140,255,.32), rgba(88,140,255,.18));}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:700px){ .row2{grid-template-columns:1fr} }
+  .btnrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .btnrow.single{grid-template-columns:1fr}
+  .status{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+  .pill{
+    padding:14px 16px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.04);
+    min-height:92px;
+  }
+  .pill .name{font-size:18px;font-weight:800;margin-bottom:8px}
+  .pill .sub{font-size:16px;line-height:1.8}
+ .nisshi-panel{
+    padding:18px;
+    border:none;
+    border-radius:0;
+    background:transparent;
+}
+  .options{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:12px;font-size:15px}
+  .options input{width:auto;transform:scale(1.15)}
+  .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:14px;background:rgba(0,0,0,.15);margin:0 8px 8px 0;}
+  .result{
+    margin-top:14px;
+    padding:18px 28px;
+    border:none;
+    border-radius:0;
+    background:transparent;
+}
+  .result .muted{color:#d9e3f3}
+  .header-note{font-size:18px;line-height:1.8;margin-top:8px}
+  .mini-btn{background:rgba(255,255,255,.08)}
+  .result-title{font-size:22px;font-weight:800;margin-bottom:8px;color:#ffffff;}
+  .result-phase{display:inline-block;margin-bottom:16px;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);font-size:16px;font-weight:800;color:#ffffff;}
+  .catch-wrap{display:grid;gap:4px;margin:0 0 18px;}
+  .catch-line{font-size:17px;line-height:1.9;font-weight:600;color:#f2f6fd;}
+  .silhouette-wrap{margin:0 0 18px;display:flex;justify-content:center;}
+  .silhouette-wrap img{max-width:420px;width:100%;height:auto;display:block;filter:drop-shadow(0 8px 24px rgba(0,0,0,.28));}
+  .comment-wrap{font-size:17px;line-height:2;color:#dbe5f5;white-space:pre-wrap;}
+  .subtags{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+  .result-block{
+    margin-top:18px;
+    width:100%;
+    min-width:0;
+  }
+  @media (max-width:700px){
+    body{padding:8px;}
+    .wrap{width:100%;max-width:none;gap:10px;}
+    .section{padding:12px;}
+    .nisshi-panel{padding:10px;}
+    .result{
+      padding:12px;
+      margin-top:10px;
+      width:100%;
+      max-width:none;
+    }
+    .catch-wrap{margin-bottom:14px;}
+    .catch-line{
+      font-size:17px;
+      line-height:1.9;
+      font-weight:500;
+      width:100%;
+    }
+    .silhouette-wrap{
+      margin:8px 0 16px;
+      width:100%;
+    }
+    .silhouette-wrap img{
+      width:min(100%, 420px);
+      max-width:420px;
+    }
+    .comment-wrap{
+      font-size:17px;
+      line-height:1.9;
+      width:100%;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="card">
+    <div class="section">
+      <h1>日支之間的身體性相性</h1>
+      <div class="header-note">資料儲存於命式引擎端進行，本頁會將已保存的資料讀取至 A / B 後進行判定。</div>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <div class="section">
+        <h2>A / B 設定</h2>
+
+        <div class="row2">
+          <div>
+            <label for="selA">自己（A）</label>
+            <select id="selA"></select>
+            <div class="btnrow single">
+              <button id="btnSetA">將此選項設為 A</button>
+            </div>
+          </div>
+          <div>
+            <label for="selB">對方（B）</label>
+            <select id="selB"></select>
+            <div class="btnrow single">
+              <button id="btnSetB">將此選項設為 B</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button id="btnRefresh" class="mini-btn">重新讀取保存資料</button>
+          <button id="btnSwap" class="mini-btn">交換 A / B</button>
+        </div>
+
+        <div class="status">
+          <div class="pill">
+            <div class="name">A</div>
+            <div class="sub" id="A-info">未設定</div>
+          </div>
+          <div class="pill">
+            <div class="name">B</div>
+            <div class="sub" id="B-info">未設定</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section">
+        <h2>日支之間的身體性相性</h2>
+
+        <div class="nisshi-panel">
+          <div class="row2">
+            <div>
+              <label for="a">日支（A）</label>
+              <select id="a"></select>
+            </div>
+            <div>
+              <label for="b">日支（B）</label>
+              <select id="b"></select>
+            </div>
+          </div>
+
+          <div class="btnrow single">
+            <button id="calc">開始判定</button>
+          </div>
+
+          <label class="options">
+            <input id="showRaw" type="checkbox" />
+            顯示位相法變化後結果
+          </label>
+
+          <div class="result" id="out"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+
+// 中國語版 Apps Script Web App URL。中國語版試算表をデプロイしたら、このURLだけ差し替えてください。
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwauT8JA5kqimZv8yZZEdex7cfERGiRzYRBK75AfeUfheZJ0Fm5xYw3127NwOqMhJI-/exec";
+ "https://script.google.com/macros/s/AKfycbxzyIwJ2Ql4e5Lbant7fmg8LesKob8svkDO1H52bPpVOQ5gObr1us-pl-Ue4YJjCbFA/exec";
+  const KEY = "PER-people-kanshi-v4";
+  const $ = (id) => document.getElementById(id);
+  const BR = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+  const BRANCHES = BR;
+  let A = null;
+  let B = null;
+
+  function readStore(){
+    try { return JSON.parse(localStorage.getItem(KEY) || "{}"); }
+    catch { return {}; }
+  }
+
+  function kanshiNumberToBranch(num){
+    const n = parseInt(num,10);
+    if(!Number.isFinite(n)) return null;
+    return BR[(n - 1) % 12];
+  }
+
+  function displayName(item, fallback){
+    return item?.name || fallback || "未設定";
+  }
+
+  function displayInfo(item, fallback){
+    if(!item) return "未設定";
+    const name = displayName(item, fallback);
+    const dob = item.dob || "無日期資料";
+    const D = item.D ?? item.d ?? "-";
+    const branch = item.dayBranch || kanshiNumberToBranch(D) || "-";
+    return `${name}<br>出生日期：${dob}<br>日編號：${D} / 日支：${branch}`;
+  }
+
+  function fillSelect(selId){
+    const sel = $(selId);
+    const store = readStore();
+    const keys = Object.keys(store).sort();
+    sel.innerHTML = "";
+
+    const opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = keys.length ? "請選擇" : "（尚無保存資料）";
+    sel.appendChild(opt0);
+
+    keys.forEach(key => {
+      const item = store[key];
+      const D = item.D ?? item.d ?? "-";
+      const branch = item.dayBranch || kanshiNumberToBranch(D) || "-";
+      const dob = item.dob || "無日期資料";
+      const opt = document.createElement("option");
+      opt.value = key;
+      opt.textContent = `${key}（${dob} / 日${D} / 日支${branch}）`;
+      sel.appendChild(opt);
+    });
+  }
+
+  function refreshSelects(){
+    fillSelect("selA");
+    fillSelect("selB");
+  }
+
+  function updateABView(){
+    $("A-info").innerHTML = displayInfo(A);
+    $("B-info").innerHTML = displayInfo(B);
+
+    const aBr = A?.dayBranch || kanshiNumberToBranch(A?.D ?? A?.d);
+    const bBr = B?.dayBranch || kanshiNumberToBranch(B?.D ?? B?.d);
+
+    if(aBr) $("a").value = aBr;
+    if(bBr) $("b").value = bBr;
+    if(aBr && bBr) render();
+  }
+
+  function setPerson(which){
+    const key = $(which === "A" ? "selA" : "selB").value;
+    if(!key) return;
+    const store = readStore();
+    const item = store[key];
+    if(!item) return;
+    if(which === "A") A = item;
+    if(which === "B") B = item;
+    updateABView();
+  }
+
+  function swapAB(){
+    const temp = A;
+    A = B;
+    B = temp;
+    updateABView();
+  }
+
+  $("btnSetA").addEventListener("click", ()=> setPerson("A"));
+  $("btnSetB").addEventListener("click", ()=> setPerson("B"));
+  $("btnRefresh").addEventListener("click", refreshSelects);
+  $("btnSwap").addEventListener("click", swapAB);
+
+  refreshSelects();
+
+
+
+// ★あなたの5種の型（日支×日支）(22組=44キー)
+const RELATION_5TYPES = {
+  "卯-申":"錯位型","申-卯":"錯位型",
+  "午-酉":"錯位型","酉-午":"錯位型",
+  "未-申":"錯位型","申-未":"錯位型",
+  "子-巳":"錯位型","巳-子":"錯位型",
+  "辰-未":"錯位型","未-辰":"錯位型",
+  "辰-亥":"錯位型","亥-辰":"錯位型",
+
+  "寅-酉":"緊張反應型","酉-寅":"緊張反應型",
+  "巳-戌":"緊張反應型","戌-巳":"緊張反應型",
+  "丑-寅":"緊張反應型","寅-丑":"緊張反應型",
+
+  "寅-未":"靜默共存型","未-寅":"靜默共存型",
+  "午-亥":"靜默共存型","亥-午":"靜默共存型",
+  "酉-亥":"靜默共存型","亥-酉":"靜默共存型",
+  "丑-卯":"靜默共存型","卯-丑":"靜默共存型",
+  "子-戌":"靜默共存型","戌-子":"靜默共存型",
+  "戌-亥":"靜默共存型","亥-戌":"靜默共存型",
+
+  "辰-巳":"互補信任型","巳-辰":"互補信任型",
+  "辰-午":"互補信任型","午-辰":"互補信任型",
+  "午-申":"互補信任型","申-午":"互補信任型",
+  "未-酉":"互補信任型","酉-未":"互補信任型",
+  "卯-巳":"互補信任型","巳-卯":"互補信任型",
+
+  "子-寅":"努力成長型","寅-子":"努力成長型",
+  "丑-申":"努力成長型","申-丑":"努力成長型",
+};
+
+const SIL_MAP = {
+  "同": "同.png",
+  "支合": "支合.png",
+  "半会": "半会.png",
+  "準方三位": "準方三位.png",
+  "対冲": "対冲.png",
+  "破": "破.png",
+  "害": "害.png",
+  "自刑": "自刑.png",
+  "生貴刑": "生貴刑.png",
+  "庫気刑": "庫気刑.png",
+  "旺気刑": "旺気刑.png",
+  "靜默共存型": "静かな共存型.png",
+  "互補信任型": "補完信頼型.png",
+  "努力成長型": "努力成長型.png",
+  "緊張反應型": "緊張反応型.png",
+"緊張反応型": "緊張反応型.png",
+  "錯位型": "すれ違い型.png",
+  "蔵干干合組": "蔵干干合組.png",
+  "錯位型": "すれ違い型.png",
+  "緊張反應型": "緊張反応型.png",
+"緊張反応型": "緊張反応型.png",
+  "靜默共存型": "静かな共存型.png",
+  "互補信任型": "補完信頼型.png",
+  "努力成長型": "努力成長型.png",
+  "藏干干合型": "蔵干干合組.png",
+  "對沖": "対冲.png",
+  "支合": "支合.png",
+  "半會": "半会.png",
+  "準方三位": "準方三位.png",
+  "破": "破.png",
+  "害": "害.png",
+  "自刑": "自刑.png",
+  "生貴刑": "生貴刑.png",
+  "庫氣刑": "庫気刑.png",
+  "旺氣刑": "旺気刑.png",
+  "同": "同.png",
+};
+function pickMainLabel(key, uniq, raw){
+  const pairText = PAIR_TEXTS[key];
+  if (pairText?.type && SIL_MAP[pairText.type]) return pairText.type;
+  const keiType = detectKeiType(raw);
+  if (keiType && SIL_MAP[keiType]) return keiType;
+  const phaseOrder = ['対冲','支合','半会','害','破','自刑','旺気刑','生貴刑','庫気刑','同','準方三位'];
+  for (const k of phaseOrder){
+    if (uniq.includes(k) && SIL_MAP[k]) return k;
+  }
+  return uniq.find(k => SIL_MAP[k]) || '';
+}
+
+function escapeHtmlAndBr(s){
+  return escapeHtml(s).replaceAll('\n','<br>');
+}
+
+function populate(selId){
+  const sel = document.getElementById(selId);
+  sel.innerHTML = "";
+  for (const b of BRANCHES){
+    const opt = document.createElement("option");
+    opt.value = b;
+    opt.textContent = b;
+    sel.appendChild(opt);
+  }
+}
+
+function loadBodyRelation(a, b){
+  return new Promise((resolve, reject) => {
+    const callbackName = "perCallback_" + Date.now();
+
+    window[callbackName] = function(data){
+      resolve(data);
+      delete window[callbackName];
+      script.remove();
+    };
+
+    const script = document.createElement("script");
+    script.src = `${GAS_URL}?mode=bodyRelation&a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}&callback=${callbackName}`;
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
+}
+function toZhTypeLabel(label){
+  return (label || "")
+    .replace("すれ違い型", "錯位型")
+    .replace("緊張反応型", "緊張反應型")
+    .replace("静かな共存型", "靜默共存型")
+    .replace("静かに共有型", "靜默共存型")
+    .replace("努力成長型", "努力成長型")
+    .replace("補完信頼型", "互補信任型")
+    .replace("蔵干干合組", "藏干干合型");
+}
+async function render(){
+  try{
+    const a = document.getElementById("a").value;
+    const b = document.getElementById("b").value;
+    const out = document.getElementById("out");
+
+out.innerHTML = `<div class="comment-wrap">正在從試算表讀取資料...</div>`;
+
+const data = await loadBodyRelation(a, b);
+
+    if(!data || !data.ok){
+      out.innerHTML = `<div class="comment-wrap">找不到判定資料。</div>`;
+      return;
+    }
+
+
+
+ let html = `<div class="result-title">${escapeHtml(data.a)} × ${escapeHtml(data.b)}</div>`;
+
+(data.results || []).forEach(item => {
+
+ const mainLabel = toZhTypeLabel(item.mainKey || "");
+
+  html += `<div class="result-block">`;
+
+  if(mainLabel){
+    html += `<div class="result-phase">${escapeHtml(mainLabel)}</div>`;
+  }
+
+  if(item.catchA || item.catchB){
+
+    html += `<div class="catch-wrap">`;
+
+    if(item.catchA){
+      html += `<div class="catch-line">${escapeHtmlAndBr(item.catchA)}</div>`;
+    }
+
+    if(item.catchB){
+      html += `<div class="catch-line">${escapeHtmlAndBr(item.catchB)}</div>`;
+    }
+
+    html += `</div>`;
+  }
+
+  const imageKey = mainLabel
+    .replace(/（.*?）/g, "")
+    .replace(/\(.*?\)/g, "");
+
+  const silFile = SIL_MAP[imageKey];
+
+  if(silFile){
+    html += `
+      <div class="silhouette-wrap">
+        <img src="./sil/${encodeURI(silFile)}" alt="${escapeHtml(mainLabel)}">
+      </div>
+    `;
+  }
+
+  if(item.comment){
+    html += `<div class="comment-wrap">${escapeHtmlAndBr(item.comment)}</div>`;
+  }
+
+const showRaw = document.getElementById("showRaw").checked;
+if(showRaw){
+const rawParts = [item.phaseA, item.phaseB, item.phaseC, item.season, item.type, item.group].filter(Boolean);
+  html += `<div class="muted" style="margin-top:14px;">原始資料：<code>${escapeHtml(rawParts.join(" / "))}</code></div>`;
+}
+  html += `</div>`;
+});
+
+    out.innerHTML = html;
+
+  }catch(err){
+    console.error("試算表讀取錯誤:", err);
+    document.getElementById("out").innerHTML =
+      `<div class="comment-wrap">資料讀取失敗。</div>`;
+  }
+}
+function detectKeiType(raw){
+  const s = (raw || "").replace(/\s+/g, "");
+  if (s.includes("旺気刑")) return "旺気刑";
+  if (s.includes("庫気刑")) return "庫気刑";
+  if (s.includes("生貴刑") || s.includes("生気刑")) return "生貴刑";
+  if (s.includes("自刑")) return "自刑";
+  if (s.includes("刑")) return "刑";
+  return null;
+}
+
+function escapeHtml(s){
+  return (s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#39;");
+}
+
+
+populate("a");
+populate("b");
+
+// 外部から日支（子〜亥）をセットして即判定できるようにする
+function setBranches(aBranch, bBranch){
+  if(aBranch && BRANCHES.includes(aBranch)) document.getElementById("a").value = aBranch;
+  if(bBranch && BRANCHES.includes(bBranch)) document.getElementById("b").value = bBranch;
+  render();
+}
+
+document.getElementById("calc").addEventListener("click", render);
+document.getElementById("showRaw").addEventListener("change", render);
+
+// 初期表示（未選択なら子×午）
+document.getElementById("a").value = "子";
+document.getElementById("b").value = "午";
+render();
+
+
+</script>
+
+</body>
+</html>

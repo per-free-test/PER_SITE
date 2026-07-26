@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>愛的構成診斷</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{--ink:#202020;--paper:#fbfaf7;--line:#e6ded4;--accent:#6f5a93;}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC","Heiti TC",sans-serif;color:var(--ink);background:var(--paper);line-height:1.75;-webkit-text-size-adjust:100%;}
+    .page{min-height:100svh;padding:24px 14px 90px}.wrap{width:min(100%,480px);margin:0 auto}header{text-align:center;margin:10px auto 20px}
+    h1{font-size:34px;letter-spacing:.08em;margin:0 0 14px;font-weight:800}.lead{font-size:15px;color:#555;margin:0 auto;line-height:2}.lead strong{color:#222;font-size:17px}
+    .toolbar{position:sticky;top:0;z-index:10;margin:18px -14px 18px;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;background:rgba(251,250,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(230,222,212,.7)}
+    .count{grid-column:1/3;text-align:center;font-weight:800;color:var(--accent);font-size:15px}button{border:none;border-radius:999px;padding:13px 14px;background:var(--accent);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(111,90,147,.22);font-size:15px}button.secondary{background:#fff;color:var(--accent);border:1px solid #d8cee7;box-shadow:none}
+    .panel{background:transparent;border:0;padding:0}.grid{display:grid;grid-template-columns:1fr;gap:10px}
+    label.item{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer;box-shadow:0 5px 14px rgba(80,60,40,.045)}
+    label.item:has(input:checked){border-color:#9c86bf;background:#fbf8ff;box-shadow:0 8px 20px rgba(111,90,147,.12)}input[type="checkbox"]{width:20px;height:20px;margin:5px 0 0;accent-color:var(--accent)}.name{font-weight:800;font-size:17px;letter-spacing:.02em}.desc{display:block;color:#555;font-size:14px;line-height:1.6;margin-top:2px}
+    .result{display:none;min-height:100svh;color:#fff;background:radial-gradient(circle at 18% 18%, rgba(255,255,255,.55) 0 1px, transparent 2px),radial-gradient(circle at 78% 28%, rgba(255,255,255,.42) 0 1px, transparent 2px),radial-gradient(circle at 38% 76%, rgba(255,255,255,.36) 0 1px, transparent 2px),linear-gradient(180deg,#09112f 0%,#17163d 50%,#2c1b4b 100%);background-size:150px 150px,190px 190px,230px 230px,auto;padding:28px 14px 70px}
+    .result h1{font-size:30px;color:#fff;text-align:center;margin-bottom:18px}.resultCard{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);border-radius:26px;padding:18px 14px 20px;box-shadow:0 16px 45px rgba(0,0,0,.25);backdrop-filter:blur(8px)}
+    .chartBox{
+      background:
+        radial-gradient(circle at 22% 22%, rgba(255,255,255,.85) 0 1px, transparent 2px),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,.55) 0 1px, transparent 2px),
+        radial-gradient(circle at 45% 78%, rgba(255,255,255,.45) 0 1px, transparent 2px),
+        radial-gradient(circle at 50% 50%, rgba(36,50,108,.35), rgba(4,10,35,.25) 62%, rgba(4,10,35,.12)),
+        rgba(255,255,255,.06);
+      background-size:120px 120px,170px 170px,210px 210px,auto,auto;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:24px;
+      padding:12px;
+      margin:0 auto 18px;
+    }
+    .chartBox canvas{max-height:330px}.summary{display:grid;grid-template-columns:1fr;gap:9px;margin:12px 0 18px}.summary div{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);border-radius:16px;padding:11px 13px;font-size:15px}.summary b{font-size:16px}.summary span{color:#f7f0ff}.pickedTitle{font-size:19px;text-align:center;margin:22px 0 10px;color:#fff}.picked{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.tag{border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.12);border-radius:999px;padding:6px 11px;font-size:13px}.empty{text-align:center;color:#f5e9c8;margin:18px 0}.result .toolbar{position:static;background:transparent;border:0;margin:18px 0 0;padding:0}
+    @media (min-width:760px){.wrap{width:min(100%,620px)}.grid{grid-template-columns:1fr 1fr}.summary{grid-template-columns:repeat(5,1fr)}.summary div{display:block;text-align:center}.page{padding-top:34px}}
+  </style>
+</head>
+<body>
+  <main id="inputPage" class="page"><div class="wrap"><header><h1>愛的構成診斷</h1><p class="lead">對你而言<br><strong>「這也許是愛」</strong><br>請自由勾選你認為符合的項目。<br><br>每項人的愛都有不同的形態。<br>沒有標準答案。</p></header><div class="toolbar"><button onclick="showResult()">查看結果</button><button class="secondary" onclick="clearAll()">重設</button><span class="count">已選擇：<span id="selectedCount">0</span></span></div><section class="panel"><div id="items" class="grid"></div></section></div></main>
+  <section id="resultPage" class="result"><div class="wrap"><h1>你的愛之構成</h1><div class="resultCard"><div id="emptyMsg" class="empty" style="display:none;">尚未選擇任何成分。</div><div class="chartBox"><canvas id="resultChart"></canvas></div><div id="summary" class="summary"></div><h2 class="pickedTitle">你所選擇的成分</h2><div id="picked" class="picked"></div><div class="toolbar"><button onclick="backToInput()">重新選擇</button><button class="secondary" onclick="clearAll();backToInput();">重新選擇</button></div></div></div></section>
+<script>
+const components = [
+  {n:'共鳴',d:'在一起時自然產生共振',c:'連結'},
+  {n:'佔有欲',d:'想成為自己的、不想放手',c:'自我'},
+  {n:'保護欲',d:'想守護對方、支持對方',c:'生存'},
+  {n:'自我主角化',d:'想把這段關係寫進自己的故事',c:'時間'},
+  {n:'存在感謝',d:'只要對方存在就很感激',c:'連結'},
+  {n:'刺激需求',d:'想心動、想要刺激感',c:'愉悅'},
+  {n:'契約意識',d:'想守護彼此約定的關係',c:'生存'},
+  {n:'嚮往',d:'想成為那樣的人',c:'時間'},
+  {n:'共同生活維持',d:'想持續一起生活',c:'生存'},
+  {n:'競爭心',d:'不想輸給那個人',c:'自我'},
+  {n:'共感',d:'希望被理解、也想理解對方',c:'連結'},
+  {n:'連結需求',d:'想保持連結',c:'連結'},
+  {n:'沉默共享',d:'不說話也覺得自在',c:'連結'},
+  {n:'社會眼光',d:'不想被周圍的人覺得奇怪',c:'自我'},
+  {n:'好奇心',d:'想更了解對方',c:'連結'},
+  {n:'義務感',d:'既然答應了就想負起責任',c:'生存'},
+  {n:'身體愉悅感',d:'身體相處舒服、契合',c:'愉悅'},
+  {n:'支配欲',d:'希望事情照自己的想法進行',c:'自我'},
+  {n:'理想化',d:'想把對方視為完美的人',c:'時間'},
+  {n:'學習',d:'想向這個人學習',c:'連結'},
+  {n:'同席感',d:'只要待在同一個空間就很好',c:'連結'},
+  {n:'家庭形成欲求',d:'想成為家人、一起生活',c:'生存'},
+  {n:'嫉妒',d:'不喜歡對方和別人太親近',c:'自我'},
+  {n:'回憶保存',d:'想珍惜共同的回憶',c:'時間'},
+  {n:'未來共享',d:'想一起思考未來',c:'連結'},
+  {n:'存在確認',d:'只要知道對方在就安心',c:'連結'},
+  {n:'生存策略',d:'和對方在一起比較容易生活',c:'生存'},
+  {n:'世界觀共享',d:'想看見相同的風景',c:'連結'},
+  {n:'想成為特別的人',d:'希望成為對方特別的存在',c:'自我'},
+  {n:'自我投射',d:'會把自己投影到對方身上',c:'時間'},
+  {n:'協作',d:'想一起完成某些事情',c:'連結'},
+  {n:'命運幻想',d:'希望對方就是命中注定的人',c:'時間'},
+  {n:'守望',d:'即使遠遠看著也覺得滿足',c:'連結'},
+  {n:'不安',d:'害怕被討厭、害怕失去',c:'生存'},
+  {n:'生殖本能',d:'想留下彼此的孩子',c:'生存'},
+  {n:'發現',d:'想看見對方新的樣貌',c:'連結'},
+  {n:'想被選擇',d:'希望成為對方的第一選擇',c:'自我'},
+  {n:'尊重自由',d:'重視對方的自由',c:'連結'},
+  {n:'迴避老後不安',d:'害怕獨自面對晚年',c:'生存'},
+  {n:'氣質魅力',d:'被對方的氣質所吸引',c:'愉悅'},
+  {n:'情感共享',d:'想分享快樂與悲傷',c:'連結'},
+  {n:'尊敬',d:'覺得這個人很厲害',c:'連結'},
+  {n:'依賴',d:'覺得沒有對方就活不下去',c:'生存'},
+  {n:'管理欲',d:'想掌握對方的行動',c:'自我'},
+  {n:'歷史共享',d:'想一起累積歲月',c:'連結'},
+  {n:'再會願望',d:'希望再次見面',c:'時間'},
+  {n:'救贖願望',d:'想幫助對方',c:'生存'},
+  {n:'聲音魅力',d:'聽到聲音就會被吸引',c:'愉悅'},
+  {n:'逃避孤獨',d:'害怕一個人',c:'生存'},
+  {n:'優越感',d:'比別人更被愛會感到開心',c:'自我'},
+  {n:'上癮式愉悅',d:'無法停止、無法離開',c:'愉悅'},
+  {n:'想被保護',d:'希望有人守護自己',c:'生存'},
+  {n:'成長刺激',d:'讓自己想變得更好',c:'連結'},
+  {n:'神秘感',d:'被無法理解的部分吸引',c:'時間'},
+  {n:'想被需要',d:'希望被依賴、被需要',c:'自我'},
+  {n:'懷念感',d:'珍惜過去的回憶',c:'時間'},
+  {n:'執著',d:'一直放不下、一直惦記著',c:'自我'},
+  {n:'想共享當下',d:'想一起度過此刻',c:'連結'},
+  {n:'自我價值確認',d:'透過被愛感受到自身價值',c:'自我'},
+  {n:'習慣性依戀',d:'因長久相處而難以分開',c:'時間'},
+  {n:'生成感',d:'在一起時會產生新的事物',c:'連結'},
+  {n:'教導欲',d:'想傳達自己的想法',c:'自我'},
+  {n:'社會認可',d:'希望這段關係被社會接受',c:'自我'},
+  {n:'不完整之美',d:'喜歡對方尚未完成的部分',c:'連結'},
+  {n:'被拋棄不安',d:'害怕被丟下',c:'生存'},
+  {n:'自豪感',d:'想向別人介紹這個人',c:'自我'},
+  {n:'團隊意識',d:'想成為同一個團隊',c:'生存'},
+  {n:'浪漫期待',d:'期待像戲劇般的戀愛',c:'時間'},
+  {n:'生存確認',d:'只要對方平安就好',c:'生存'},
+  {n:'催產素式連結感',d:'靠近時會感到安心',c:'愉悅'},
+  {n:'相互扶持',d:'困難時彼此幫助',c:'連結'},
+  {n:'秘密共享',d:'擁有只有彼此知道的秘密',c:'連結'},
+  {n:'安心感',d:'在一起時感到放鬆',c:'生存'},
+  {n:'觀察',d:'想看著對方如何改變',c:'連結'},
+  {n:'傳承',d:'想留下某些東西',c:'連結'},
+  {n:'對美的嚮往',d:'光是看著就會被吸引',c:'愉悅'},
+  {n:'母性欲求',d:'想照顧對方',c:'生存'},
+  {n:'多巴胺反應',d:'在一起時感到興奮',c:'愉悅'},
+  {n:'罪惡感',d:'覺得拋下對方很可憐',c:'時間'},
+  {n:'歸屬感',d:'想擁有屬於自己的地方',c:'生存'},
+  {n:'動作魅力',d:'被對方的小動作吸引',c:'愉悅'},
+  {n:'永恆幻想',d:'相信這份關係會永遠持續',c:'時間'},
+  {n:'角色分工',d:'希望彼此分工合作',c:'生存'},
+  {n:'父性欲求',d:'想引導對方、支持對方',c:'生存'},
+  {n:'探索',d:'想了解尚未知道的部分',c:'連結'},
+  {n:'認可需求',d:'希望被認同、被稱讚',c:'自我'},
+  {n:'獨佔欲',d:'不希望被別人奪走',c:'自我'},
+  {n:'經濟安定',d:'一起生活會更穩定',c:'生存'},
+  {n:'共同體驗',d:'珍惜一起經歷過的事情',c:'連結'},
+  {n:'驚喜',d:'喜歡意料之外的感受',c:'連結'},
+  {n:'幻想',d:'把對方看得比真實更美好',c:'時間'},
+  {n:'自我擴張感',d:'感覺自己的世界變大了',c:'連結'},
+  {n:'性需求',d:'想擁抱、想親近、想在一起',c:'愉悅'},
+  {n:'情感牽掛',d:'無法輕易討厭對方',c:'時間'},
+  {n:'矯正欲',d:'想讓對方變得更好',c:'自我'},
+  {n:'崇拜',d:'覺得對方是特別的存在',c:'時間'}
+];
+const categories = [
+  {key:'生存', icon:'🌱', color:'#3aa0dc'},
+  {key:'愉悅', icon:'🔥', color:'#ff5c86'},
+  {key:'自我', icon:'🪞', color:'#ff9f40'},
+  {key:'時間', icon:'🕰', color:'#ffd166'},
+  {key:'連結', icon:'✨', color:'#4bc0c0'}
+];
+let chart;
+function renderItems(){
+  const box = document.getElementById('items');
+  box.innerHTML = components.map((it,i)=>`<label class="item"><input type="checkbox" data-index="${i}" onchange="updateCount()"><span><span class="name">${it.n}</span><span class="desc">（${it.d}）</span></span></label>`).join('');
+  updateCount();
+}
+function selectedItems(){return [...document.querySelectorAll('input[type="checkbox"]:checked')].map(el=>components[+el.dataset.index]);}
+function updateCount(){document.getElementById('selectedCount').textContent = selectedItems().length;}
+function clearAll(){document.querySelectorAll('input[type="checkbox"]').forEach(el=>el.checked=false);updateCount();}
+function showResult(){
+  const selected = selectedItems();
+  const total = selected.length;
+  const counts = Object.fromEntries(categories.map(c=>[c.key,0]));
+  selected.forEach(it=>counts[it.c]++);
+
+  const ranked = categories
+    .map(c => ({
+      ...c,
+      count: counts[c.key],
+      pct: total ? Math.round(counts[c.key] / total * 100) : 0
+    }))
+    .sort((a,b) => b.count - a.count);
+
+  document.getElementById('inputPage').style.display='none';
+  document.getElementById('resultPage').style.display='block';
+  document.getElementById('emptyMsg').style.display = total ? 'none':'block';
+
+  document.getElementById('summary').innerHTML = ranked.map(c=>{
+    return `<div><b>${c.icon} ${c.key}</b><span>${c.count}項 / ${c.pct}%</span></div>`;
+  }).join('');
+
+  document.getElementById('picked').innerHTML = selected.map(it=>`<span class="tag">${it.n}</span>`).join('');
+
+  const ctx = document.getElementById('resultChart');
+  if(chart) chart.destroy();
+
+  const labelPlugin = {
+    id:'sliceLabels',
+    afterDatasetsDraw(chart){
+      const {ctx}=chart;
+      const meta=chart.getDatasetMeta(0);
+      const values=chart.data.datasets[0].data;
+      const sum=values.reduce((a,b)=>a+b,0);
+      ctx.save();
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      meta.data.forEach((arc,i)=>{
+        const value=values[i];
+        if(!value||!sum)return;
+        const pct=Math.round(value/sum*100);
+        if(pct<7)return;
+        const pos=arc.tooltipPosition();
+        ctx.fillStyle='#ffffff';
+        ctx.shadowColor='rgba(0,0,0,.55)';
+        ctx.shadowBlur=5;
+        ctx.font='700 13px Microsoft JhengHei, Noto Sans TC, sans-serif';
+        ctx.fillText(chart.data.labels[i], pos.x, pos.y-8);
+        ctx.font='700 12px Microsoft JhengHei, Noto Sans TC, sans-serif';
+        ctx.fillText(pct+'%', pos.x, pos.y+10);
+        ctx.shadowBlur=0;
+      });
+      ctx.restore();
+    }
+  };
+
+  chart = new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:ranked.map(c=>c.icon+' '+c.key),
+      datasets:[{
+        data:ranked.map(c=>c.count),
+        backgroundColor:ranked.map(c=>c.color),
+        borderColor:'#ffffff',
+        borderWidth:2,
+        hoverOffset:6
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      aspectRatio:1,
+      cutout:'38%',
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:(ctx)=>{
+              const pct=total?Math.round(ctx.raw/total*100):0;
+              return `${ctx.label}：${ctx.raw}項 / ${pct}%`;
+            }
+          }
+        }
+      }
+    },
+    plugins:[labelPlugin]
+  });
+  window.scrollTo(0,0);
+}
+function backToInput(){document.getElementById('resultPage').style.display='none';document.getElementById('inputPage').style.display='block';window.scrollTo(0,0);}
+renderItems();
+</script>
+</body>
+</html>
