@@ -319,6 +319,34 @@ details.explain[open] summary{display:none}
 @media (min-width:700px){
   .grid-2{grid-template-columns:1fr 1fr}
 }
+
+.compact-person-box{margin-top:14px}
+.result-preview{
+  margin-top:16px;
+  font-size:clamp(16px,4vw,21px);
+}
+.result-preview span{
+  min-width:0;
+  text-align:left;
+}
+.row-btns.single{grid-template-columns:1fr}
+.engine-load-row{
+  margin-top:10px;
+}
+.engine-load-row button{
+  width:100%;
+}
+
+
+.scroll-guide{
+  margin:14px 0 6px;
+  text-align:center;
+  color:#cfdcff;
+  font-size:15px;
+  font-weight:700;
+  opacity:.9;
+}
+
 </style>
 </head>
 <body>
@@ -348,62 +376,29 @@ details.explain[open] summary{display:none}
         <option value="male">男性（水藍）</option>
       </select>
 
-      <div class="person-box">
-        <div class="grid-2">
-          <div>
-            <label for="A_personName">保存名稱</label>
-            <input id="A_personName" type="text">
-          </div>
-          <div>
-            <label for="A_personSelect">從保存資料中讀取</label>
-            <select id="A_personSelect"></select>
-          </div>
+      <div class="person-box compact-person-box">
+        <label for="A_personSelect">從 PER Engine 讀取</label>
+        <select id="A_personSelect"></select>
+        <div class="engine-load-row">
+          <button type="button" class="primary" onclick="perPerson.loadToInputs('A')">取得命式</button>
         </div>
 
-        <div class="grid-2">
-          <div>
-            <label for="A_dob">出生年月日</label>
-            <input id="A_dob" type="date">
-          </div>
-          <div>
-            <label>&nbsp;</label>
-            <button type="button" class="primary" onclick="getMeishikiFor('A')">取得命式</button>
-          </div>
+        <div>
+          <label for="A_dob">出生年月日</label>
+          <input id="A_dob" type="date" readonly>
         </div>
+
+        <input id="A_d" type="hidden">
+        <input id="A_m" type="hidden">
+        <input id="A_y" type="hidden">
 
         <div id="A_status" class="footer-note"></div>
 
-        <div class="row-btns three">
-          <button type="button" onclick="perPerson.save('A')">保存</button>
-          <button type="button" onclick="perPerson.loadToInputs('A')">套用資料</button>
-          <button type="button" class="danger" onclick="perPerson.removeSelected('A')">刪除</button>
+        <div class="preview result-preview">
+          A：日＝<span id="pv_A_d">-</span>　
+          月＝<span id="pv_A_m">-</span>　
+          年＝<span id="pv_A_y">-</span>
         </div>
-      </div>
-
-      <label>干支編號（1〜60）</label>
-      <div class="triple">
-        <div class="field">
-          <div class="flabel"><span>日</span><span>1〜60</span></div>
-          <input id="A_d" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
-          <div class="hint">日</div>
-        </div>
-        <div class="field">
-          <div class="flabel"><span>月</span><span>1〜60</span></div>
-          <input id="A_m" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
-          <div class="hint">月</div>
-        </div>
-        <div class="field">
-          <div class="flabel"><span>年</span><span>1〜60</span></div>
-          <input id="A_y" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
-          <div class="hint">年</div>
-        </div>
-      </div>
-
-      <div class="preview">A：日＝<span id="pv_A_d">-</span>　月＝<span id="pv_A_m">-</span>　年＝<span id="pv_A_y">-</span></div>
-
-      <div class="row-btns">
-        <button type="button" class="primary" onclick="plot('A')">顯示</button>
-        <button type="button" onclick="clearPerson('A')">重設</button>
       </div>
     </div>
   </section>
@@ -419,70 +414,38 @@ details.explain[open] summary{display:none}
         <option value="male">男性（水藍）</option>
       </select>
 
-      <div class="person-box">
-        <div class="grid-2">
-          <div>
-            <label for="B_personName">保存名稱</label>
-            <input id="B_personName" type="text">
-          </div>
-          <div>
-            <label for="B_personSelect">從保存資料中讀取</label>
-            <select id="B_personSelect"></select>
-          </div>
+      <div class="person-box compact-person-box">
+        <label for="B_personSelect">從 PER Engine 讀取</label>
+        <select id="B_personSelect"></select>
+        <div class="engine-load-row">
+          <button type="button" class="primary" onclick="perPerson.loadToInputs('B')">取得命式</button>
         </div>
 
-        <div class="grid-2">
-          <div>
-            <label for="B_dob">出生年月日</label>
-            <input id="B_dob" type="date">
-          </div>
-          <div>
-            <label>&nbsp;</label>
-            <button type="button" class="primary" onclick="getMeishikiFor('B')">取得命式</button>
-          </div>
+        <div>
+          <label for="B_dob">出生年月日</label>
+          <input id="B_dob" type="date" readonly>
         </div>
+
+        <input id="B_d" type="hidden">
+        <input id="B_m" type="hidden">
+        <input id="B_y" type="hidden">
 
         <div id="B_status" class="footer-note"></div>
 
-        <div class="row-btns three">
-          <button type="button" onclick="perPerson.save('B')">保存</button>
-          <button type="button" onclick="perPerson.loadToInputs('B')">套用資料</button>
-          <button type="button" class="danger" onclick="perPerson.removeSelected('B')">刪除</button>
+        <div class="preview result-preview">
+          B：日＝<span id="pv_B_d">-</span>　
+          月＝<span id="pv_B_m">-</span>　
+          年＝<span id="pv_B_y">-</span>
         </div>
-      </div>
-
-      <label>干支編號（1〜60）</label>
-      <div class="triple">
-        <div class="field">
-          <div class="flabel"><span>日</span><span>1〜60</span></div>
-          <input id="B_d" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
-          <div class="hint">日</div>
-        </div>
-        <div class="field">
-          <div class="flabel"><span>月</span><span>1〜60</span></div>
-          <input id="B_m" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
-          <div class="hint">月</div>
-        </div>
-        <div class="field">
-          <div class="flabel"><span>年</span><span>1〜60</span></div>
-          <input id="B_y" class="bigN" type="number" min="1" max="60" inputmode="numeric" placeholder="—">
-          <div class="hint">年</div>
-        </div>
-      </div>
-
-      <div class="preview">B：日＝<span id="pv_B_d">-</span>　月＝<span id="pv_B_m">-</span>　年＝<span id="pv_B_y">-</span></div>
-
-      <div class="row-btns">
-        <button type="button" class="primary" onclick="plot('B')">顯示</button>
-        <button type="button" onclick="clearPerson('B')">重設</button>
       </div>
     </div>
   </section>
 
+  <div class="scroll-guide">↑ 宇宙盤已更新，請向上查看。</div>
+
   <section class="card">
     <div class="toolbar">
-      <div class="row-btns">
-        <button type="button" onclick="toggleTriangles()">顯示／隱藏三角形</button>
+      <div class="row-btns single">
         <button type="button" onclick="resetAll()">全部重設</button>
       </div>
 
@@ -858,9 +821,9 @@ function updatePreview(){
     const m = parseN(document.getElementById(`${p}_m`).value);
     const y = parseN(document.getElementById(`${p}_y`).value);
 
-    document.getElementById(`pv_${p}_d`).textContent = toGanzhiLabel(d);
-    document.getElementById(`pv_${p}_m`).textContent = toGanzhiLabel(m);
-    document.getElementById(`pv_${p}_y`).textContent = toGanzhiLabel(y);
+    document.getElementById(`pv_${p}_d`).textContent = d ? `${d}（${toGanzhiLabel(d)}）` : '-';
+    document.getElementById(`pv_${p}_m`).textContent = m ? `${m}（${toGanzhiLabel(m)}）` : '-';
+    document.getElementById(`pv_${p}_y`).textContent = y ? `${y}（${toGanzhiLabel(y)}）` : '-';
       });
 }
 
@@ -935,10 +898,6 @@ window.resetAll = function(){
   redraw();
 };
 
-window.toggleTriangles = function(){
-  showTriangles = !showTriangles;
-  redraw();
-};
 
 const perPerson = (()=>{
   const LS_KEY = 'PER-people-kanshi-v4';
@@ -991,7 +950,7 @@ const perPerson = (()=>{
 
     const opt0 = document.createElement('option');
     opt0.value = '';
-    opt0.textContent = keys.length ? '— 選擇保存資料 —' : '（尚無保存資料）';
+    opt0.textContent = keys.length ? '— 選擇人物 —' : '（PER Engine 尚無人物資料）';
     sel.appendChild(opt0);
 
     keys.forEach(nameKey=>{
@@ -1044,20 +1003,31 @@ const perPerson = (()=>{
 
   const loadToInputs = prefix=>{
     const sel = el(prefix+'_personSelect');
-    if(!sel || !sel.value) return;
+    if(!sel || !sel.value){
+      alert('請先選擇人物。');
+      return;
+    }
 
     const raw = readStore()[sel.value];
-    if(!raw) return;
+    if(!raw){
+      alert('找不到已保存的人物資料。');
+      return;
+    }
 
     const p = normalize(raw);
     setNumsToInputs(prefix, p);
-    el(prefix+'_personName').value = sel.value;
+
     const dobEl = el(prefix+'_dob');
     const statusEl = el(prefix+'_status');
-    if(dobEl) dobEl.value = p.dob || "";
-    if(statusEl) statusEl.textContent = '已讀取保存資料。';
+    if(dobEl) dobEl.value = normalizeDate(p.dob || "");
+
     updatePreview();
     plot(prefix);
+
+    if(statusEl){
+      statusEl.textContent =
+        `已從 PER Engine 讀取：${sel.value} / 日 ${p.d} / 月 ${p.m} / 年 ${p.y}`;
+    }
   };
 
   const removeSelected = prefix=>{
@@ -1076,10 +1046,7 @@ const perPerson = (()=>{
     refreshAllSelects();
   };
 
-  const wire = prefix=>{
-    const sel = el(prefix+'_personSelect');
-    if(sel) sel.addEventListener('change', ()=>loadToInputs(prefix));
-  };
+  const wire = prefix=>{};
 
   const init = ()=>{
     refreshAllSelects();
